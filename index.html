@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src='/socket.io/socket.io.js'></script>
+    <script>
+        var socket = io.connect('http://167.0.225.238:50000');
+        socket.on('udp message', function (msg) {
+            var coord = msg.split(",");
+            latitud = coord[0];
+            longitud = coord[1];
+            fecha = coord[2];
+            console.log(msg);
+        });
+    </script>
+    <style>
+        #map {
+        height: 300px;
+        width: 50%;
+        }
+   </style>
+</head>
+<body>
+    <h2>Latitud:</h2>
+    <p id="lat"></p>
+    <h2>Longitud:</h2>
+    <p id="long"></p>
+    <h2>Timestamp:</h2>
+    <p id="timestamp"></p>
+    <div id="map"></div>
+    <script >
+        function initMap() {
+    var coord = {lat:-34.5956145 ,lng: -58.4431949};
+        var map = new google.maps.Map(document.getElementById('map'),{
+          zoom: 10, center: coord
+        });
+    
+        var marker = new google.maps.Marker({
+          position: coord,
+          map: map
+        });
+        update = setInterval(function () {
+            document.getElementById("lat").innerHTML = latitud;
+            document.getElementById("long").innerHTML = longitud;
+            document.getElementById("timestamp").innerHTML = fecha;
+
+            var numlat = parseFloat(latitud);
+            var numlon = parseFloat(longitud);
+
+            var options = {
+                center:{lat:numlat, lng:numlon}
+            }
+
+            map.setOptions(options);
+            marker.setPosition({lat:numlat, lng:numlon});
+        }, 1000); //es lo minimo
+    }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap"></script>
+</body>
+</html>
