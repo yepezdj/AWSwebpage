@@ -5,10 +5,10 @@ var socketio = require('socket.io');
 const mysql = require('mysql');
 //Crear Conexión a la base de datos
 const database = mysql.createConnection({
-    host: 'web1.c4jg7pibawyn.us-east-1.rds.amazonaws.com',
+    host: '',
     user: '',
     password: '',
-    database: 'web1'
+    database: ''
 });
 //Verificacion
 database.connect((err) => {
