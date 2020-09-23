@@ -1,0 +1,44 @@
+
+mysql -u admin -p -h dblocation.cctsmrpujuus.us-east-1.rds.amazonaws.com -P 3306 -D web1
+
+show databases;
+
+use dblocation;
+
+CREATE TABLE  (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, longitud VARCHAR(60), latitud VARCHAR(60), timestamp VARCHAR(60));
+
+DESCRIBE nombretabla;
+
+SELECT * FROM nombretabla;
+
+
+npm install mysql
+
+Edgar Alexander Herrera Gamarra21:01
+mysql -u admin -p -h web1.c4jg7pibawyn.us-east-1.rds.amazonaws.com -P 3306 -D web1
+Edgar Alexander Herrera Gamarra21:11
+CREATE TABLE nombre (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, longitud VARCHAR(60), latitud VARCHAR(60), timestamp VARCHAR(60));
+Edgar Alexander Herrera Gamarra21:16
+DESCRIBE nombretabla;
+SELECT * FROM nombretabla;
+Edgar Alexander Herrera Gamarra21:27
+npm install mysql
+Edgar Alexander Herrera Gamarra21:28
+node app.js
+Edgar Alexander Herrera Gamarra21:45
+sudo apt update
+sudo apt install nodejs
+sudo apt install npm
+
+sudo apt install nginx
+
+mysql -u admin -p -h web1.c4jg7pibawyn.us-east-1.rds.amazonaws.com -P 3306 -D web1
+
+CREATE TABLE nombre (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, longitud VARCHAR(60), latitud VARCHAR(60), timestamp VARCHAR(60));
+
+DESCRIBE nombretabla;
+SELECT * FROM nombretabla;
+
+npm install mysql
+
+node app.js

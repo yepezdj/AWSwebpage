@@ -3,7 +3,7 @@
 <head>
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        var socket = io.connect('http://3.215.220.179:50000');
+        var socket = io.connect('http://localhost:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             latitud = coord[0];
@@ -28,10 +28,11 @@
     <p id="timestamp"></p>
     <div id="map"></div>
     <script >
+        var pathCoordinates = Array();
         function initMap() {
-    var coord = {lat:-34.5956145 ,lng: -58.4431949};
+        var coord = {lat:10.95 ,lng: -74.80};
         var map = new google.maps.Map(document.getElementById('map'),{
-          zoom: 10, center: coord
+          zoom: 4, center: coord
         });
     
         var marker = new google.maps.Marker({
@@ -50,9 +51,26 @@
                 center:{lat:numlat, lng:numlon}
             }
 
+            pathCoordinates.push({
+                                        lat : numlat,
+                                        lng : numlon
+            });
+
             map.setOptions(options);
             marker.setPosition({lat:numlat, lng:numlon});
+
+            new google.maps.Polyline({
+                        path : pathCoordinates,
+                        geodesic : true,
+                        strokeColor : '#FF0000',
+                        strokeOpacity : 1,
+                        strokeWeight : 4,
+                        map : map
+                });
+
         }, 1000); //es lo minimo
+
+
     }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap"></script>
