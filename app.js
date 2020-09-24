@@ -3,14 +3,13 @@ var http = require('http');
 var dgram = require('dgram');
 var socketio = require('socket.io');
 const mysql = require('mysql');
+require('dotenv').config({path: __dirname + '/.env'});
 //Crear Conexión a la base de datos
 const database = mysql.createConnection({
-    //host: 'dblocation.cctsmrpujuus.us-east-1.rds.amazonaws.com',
-    host: '127.0.0.1',
-    //user: 'admin',
-    user: 'root',
-    //password: 'alexander2001',
-    database: 'dblocation'
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
 });
 //Verificacion
 database.connect((err) => {

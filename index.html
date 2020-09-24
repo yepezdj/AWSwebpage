@@ -6,7 +6,7 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        var socket = io.connect('http://18.204.193.250:50000');
+        var socket = io.connect('http://3.215.220.179:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             latitud = coord[0];
