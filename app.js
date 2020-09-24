@@ -5,12 +5,12 @@ var socketio = require('socket.io');
 const mysql = require('mysql');
 //Crear Conexión a la base de datos
 const database = mysql.createConnection({
-    //host: 'dblocation.cctsmrpujuus.us-east-1.rds.amazonaws.com',
-    host: '127.0.0.1',
-    //user: 'admin',
-    user: 'root',
-    //password: 'alexander2001',
-    database: 'dblocation'
+    host: 'location.cp6fau9nnwhb.us-east-1.rds.amazonaws.com',
+    //host: '127.0.0.1',
+    user: 'admin',
+    //user: 'root',
+    password: 'valentinaviana1',
+    database: 'Location'
 });
 //Verificacion
 database.connect((err) => {
@@ -30,7 +30,7 @@ socket.on('message', (content, rinfo) => {
     //Enviar info a la base de datos
     cont = content.toString().split(",")
     cont = {latitud: cont[0], longitud: cont[1], timestamp:cont[2]}
-    let sql = 'INSERT INTO datos SET ?';
+    let sql = 'INSERT INTO loc SET ?';
     let query = database.query(sql, cont, (err, result) => {
         if (err) throw err;
     });
