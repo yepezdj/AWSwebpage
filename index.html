@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>LOCATION
+    </title>
+
     <script src='/socket.io/socket.io.js'></script>
     <script>
         var socket = io.connect('http://54.227.210.76:50000');
@@ -11,26 +14,49 @@
             fecha = coord[2];
             console.log(msg);
         });
+        
     </script>
     <style>
-        #map {
-        height: 300px;
-        width: 50%;
-        }
+         #map {
+  height: 100%;
+  width: 100%;
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
+    }
+        
    </style>
 </head>
-<body>
-    <h2>Latitud:</h2>
-    <p id="lat"></p>
-    <h2>Longitud:</h2>
-    <p id="long"></p>
-    <h2>Timestamp:</h2>
-    <p id="timestamp"></p>
+<body> 
+    <div style="position:absolute; top:0px; left:0px; z-index:5; width:410px; height:300px; background-color:#CDCDCD; opacity:0.9"> 
+    <font color=#000000>
+        <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 10px;" ><i>LOCATION</i></h1>
+    </font>
+    <font color=#000000>
+        <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 100px;" ><i>-Latitud:</i></h2>
+    </font>
+    <font color=#000000>
+        <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3cm; top: 97px;" ><p id="lat"></p></h2>
+    </font>
+    <font color=#000000>
+        <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 140px;" ><i>-Longitud:</i></h3>
+    </font>
+    <font color=#000000>
+        <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.5cm; top: 137px;" ><p id="long"></p></h3>
+    </font>
+    <font color=#000000>
+        <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 180px;" ><i>-Timestamp:</i></h4>
+    </font>
+    <font color=#000000>
+        <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 177px;" ><p id="timestamp"></p></h4>
+    </font>
+    </div>
     <div id="map"></div>
     <script >
         var pathCoordinates = Array();
         function initMap() {
-        var coord = {lat:10.95 ,lng: -74.80};
+        var coord = {lat:10.949185 ,lng: -74.803391};
         var map = new google.maps.Map(document.getElementById('map'),{
           zoom: 4, center: coord
         });
