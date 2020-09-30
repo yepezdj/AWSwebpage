@@ -6,7 +6,7 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        var socket = io.connect('http://54.227.210.76:50000');
+        var socket = io.connect('http://localhost:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             latitud = coord[0];
@@ -29,7 +29,7 @@
    </style>
 </head>
 <body> 
-    <div style="position:absolute; top:0px; left:0px; z-index:5; width:410px; height:300px; background-color:#CDCDCD; opacity:0.9"> 
+    <div style="position:absolute; top:110px; left:0px; z-index:5; width:410px; height:400px; background-color:#CDCDCD; opacity:0.9"> 
     <font color=#000000>
         <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 10px;" ><i>LOCATION</i></h1>
     </font>
@@ -51,14 +51,35 @@
     <font color=#000000>
         <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 177px;" ><p id="timestamp"></p></h4>
     </font>
+
+
+
+    <form 
+        style="position:absolute; top:250px; left:10px; z-index: 10;"
+
+
+        name="formulario_fecha" id="formulario_fecha" method="post"
+         action="send.php" autocomplete="off">
+
+
+        <label for="inicio">Selecciona la fecha y hora del inicio del recorrido:</label>
+        <input type="datetime-local" name="inicio" required><br>
+        <label for="fin">Selecciona la fecha y hora del fin del recorrido:</label>
+        <input type="datetime-local" name="fin" required><br><br>
+        <input type="submit" value="Submit">
+      </form>
     </div>
+    
+    
+    
+
     <div id="map"></div>
     <script >
         var pathCoordinates = Array();
         function initMap() {
         var coord = {lat:10.949185 ,lng: -74.803391};
         var map = new google.maps.Map(document.getElementById('map'),{
-          zoom: 4, center: coord
+          zoom: 10, center: coord
         });
     
         var marker = new google.maps.Marker({
@@ -99,6 +120,6 @@
 
     }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQBGTBKMtCmEGfBu9YqHhXNpHIDormd9o&callback=initMap"></script>
 </body>
 </html>
