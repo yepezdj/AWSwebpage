@@ -58,20 +58,28 @@
         style="position:absolute; top:250px; left:10px; z-index: 10;"
 
 
-        name="formulario_fecha" id="formulario_fecha" method="post"
-         action="send.php" autocomplete="off">
+        name="formulario_fecha" id="formulario_fecha" method="post" autocomplete="off">
 
 
         <label for="inicio">Selecciona la fecha y hora del inicio del recorrido:</label>
-        <input type="datetime-local" name="inicio" required><br>
+        <input type="datetime-local" name="inicio" id="inicio" required><br>
         <label for="fin">Selecciona la fecha y hora del fin del recorrido:</label>
-        <input type="datetime-local" name="fin" required><br><br>
-        <input type="submit" value="Submit">
+        <input type="datetime-local" name="fin" id="fin" required><br><br>
+        <input type="button" value="Submit" id="btnSubmit" onclick="testVariable()">
       </form>
     </div>
     
     
-    
+    <script>
+        function testVariable() {
+            debugger
+            var strText = document.getElementById("inicio").value;
+            var strText1 = document.getElementById("fin").value;
+            document.getElementById("long").innerHTML = strText;
+            document.getElementById("lat").innerHTML = strText1;
+
+        }
+    </script>
 
     <div id="map"></div>
     <script >
