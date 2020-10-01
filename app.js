@@ -13,7 +13,7 @@ var socket = dgram.createSocket('udp4');
 const database = mysql.createConnection({
     host: 'dblocation.cctsmrpujuus.us-east-1.rds.amazonaws.com',
     //host: '127.0.0.1',
-    //user: 'admin',
+    user: 'admin',
     //user: 'root',
     password: 'alexander2001',
     database: 'dblocation'
