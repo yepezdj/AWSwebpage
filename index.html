@@ -37,7 +37,7 @@
             name="formulario_fecha" id="formulario_fecha" method="post">
 
             <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(), historiavalues(), exit1()">
-            <input type="button" value="Ubicacion en vivo" id="live" onclick="hideForm(), livevalues(), exit2()">
+            <input type="button" value="Ubicacion en vivo" id="live" onclick="hideForm(), livevalues()">
         </form>
 
         <font color=#000000>
@@ -69,16 +69,15 @@
             name="form_fecha" id="form_fecha" autocomplete="off"
             method="POST" action="/create">
 
-            <label for="inicio">Selecciona la fecha y hora del inicio del recorrido:</label>
+            <label for="inicio">Selecciona fecha y hora 1:</label>
             <input type="datetime-local" name="inicio" id="inicio" required><br>
-            <label for="fin">Selecciona la fecha y hora del fin del recorrido:</label>
+            <label for="fin">Selecciona la fecha y hora 2:</label>
             <input type="datetime-local" name="fin" id="fin" required><br><br>
             <input type="submit" value="Submit" id="btnSubmit">
         </form>
     </div>
     
-    <script>
-        
+    <script> 
         function showForm() {
             document.getElementById('form_fecha').style.display = 'block';
         }
@@ -88,9 +87,6 @@
         function exit1() {
             clearInterval(update);
         }
-        function exit2() {
-            clearInterval(update2);
-        }
     </script>
 
     <div id="map">
@@ -99,15 +95,10 @@
     <script >
         var pathCoordinates = Array();
         function initMap() {
-            //var coord = {lat:10.949185 ,lng: -74.803391};
             var map = new google.maps.Map(document.getElementById('map'),{
             zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
             });
-        
-        //    var marker = new google.maps.Marker({
-        //        position: {lat:10.949185 ,lng: -74.803391},
-        //        map: map
-        //        });
+    
         }
     </script>
 
@@ -166,35 +157,18 @@
             var map = new google.maps.Map(document.getElementById('map'),{
             zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
             });  
-            //var marker = new google.maps.Marker({
-             //   position: {lat:10.949185 ,lng: -74.803391},
-             //   map: map
-            //});
             
-                socket.on('historia', function (msg) {
-                console.log(msg);//---------------------
-            });
-            
+                socket.on('historia', function (result) {
+                console.log(result);//---------------------
 
-                var numlat = parseFloat(latitud);
-                var numlon = parseFloat(longitud);
-
-
-                pathCoordinates.push({
-                    lat : numlat,
-                    lng : numlon
-                });
-
-                map.setOptions(options);
-                marker.setPosition({lat:numlat, lng:numlon});
-
+                pathCoordinates = result;
                 var lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                 };
                 new google.maps.Polyline({
                     path : pathCoordinates,
                     geodesic : true,
-                    strokeColor : '#FF0000',
+                    strokeColor : '#003bd5',
                     strokeOpacity : 1,
                     strokeWeight : 2,
                     icons: [{
@@ -205,6 +179,7 @@
                     JointType: 1,
                     map : map
                 });
+            });
         }
     </script>
 

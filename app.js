@@ -24,7 +24,7 @@ socket.on('message', (content, rinfo) => {
     io.sockets.emit('udp message', content.toString());
     //Enviar info a la base de datos
     cont = content.toString().split(",")
-    cont = {latitud: cont[0], longitud: cont[1], timestamp:cont[2]}
+    cont = {lat: cont[0], lng: cont[1], timestamp:cont[2]}
     let sql = 'INSERT INTO datos SET ?';
     let query = database.query(sql, cont, (err, result) => {
         if (err) throw err;
@@ -45,10 +45,10 @@ app.post('/create', urlencodedParser, function (req,res) {
     inicio = inicio.toString()
     fin = fin.toString()
 
-    let sql = `SELECT * FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+    let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
     let query = database.query(sql, (err, result) => {
         if(err){ throw err;}
-        console.log(result);
+        //console.log(result);
 	io.sockets.emit('historia', result);
 });
 });
