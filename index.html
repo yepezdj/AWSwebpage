@@ -161,12 +161,12 @@
                 socket.on('historia', function (result) {
                 console.log(result);//---------------------
 
-                pathCoordinates = result;
+                pathCoordinate = result;
                 var lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                 };
                 new google.maps.Polyline({
-                    path : pathCoordinates,
+                    path : pathCoordinate,
                     geodesic : true,
                     strokeColor : '#003bd5',
                     strokeOpacity : 1,
@@ -180,6 +180,7 @@
                     map : map
                 });
             });
+            window.stop();
         }
     </script>
 
