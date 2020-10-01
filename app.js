@@ -1,29 +1,23 @@
 var fs = require('fs');
-var http = require('http');
 var dgram = require('dgram');
 var socketio = require('socket.io');
+var express = require('express');
 const mysql = require('mysql');
-
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var app = express();
+var server = require('http').Server(app);       
+var io = socketio.listen(server);
+var socket = dgram.createSocket('udp4');
 //Crear Conexión a la base de datos
 const database = mysql.createConnection({
     //host: 'dblocation.cctsmrpujuus.us-east-1.rds.amazonaws.com',
-    //host: '127.0.0.1',
+    host: '127.0.0.1',
     //user: 'admin',
     user: 'root',
     //password: 'alexander2001',
     database: 'dblocation'
 });
-//Verificacion
-database.connect((err) => {
-    if (err) {
-        throw err;
-    }
-    console.log('Connected to DB');
-});
-
-var app = http.createServer(handleRequest);
-var io = socketio.listen(app);
-var socket = dgram.createSocket('udp4');
 
 socket.on('message', (content, rinfo) => {
     console.log(`Server got: ${content} from ${rinfo.address}:${rinfo.port}`);
@@ -37,12 +31,31 @@ socket.on('message', (content, rinfo) => {
     });
 });
 
-function handleRequest (req, res) {
+
+
+app.get('/', (request, response) => {
+    response.writeHead(200, {'content-type': 'text/html'});
     var file = fs.createReadStream('index.html');
-    file.pipe(res);
-}
+    file.pipe(response);
+});
+
+app.post('/create', urlencodedParser, function (req,res) {
+    var inicio = req.body.inicio;
+    var fin = req.body.fin;
+    inicio = inicio.toString()
+    fin = fin.toString()
+
+    let sql = `SELECT * FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+    let query = database.query(sql, (err, result) => {
+        if(err){ throw err;}
+        console.log(result);
+	io.sockets.emit('historia', result);
+});
+});
 
 socket.bind(11000);
-app.listen(50000, function (){
+server.listen(50000, () => {
     console.log("Servidor en puerto 50000");
 });
+
+

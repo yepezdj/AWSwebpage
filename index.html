@@ -30,14 +30,14 @@
 </head>
 
 <body> 
-    <div style="position:absolute; top:110px; left:0px; z-index:5; width:410px; height:400px; background-color:#CDCDCD; opacity:0.9">
+    <div style="position:absolute; top:60px; left:0px; z-index:5; width:370px; height:400px; background-color:#CDCDCD; opacity:0.9">
         
         <form 
             style="position:absolute; top:80px; left:10px; z-index: 10;"
             name="formulario_fecha" id="formulario_fecha" method="post">
 
-            <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(), historiavalues() ">
-            <input type="button" value="Ubicacion en vivo" id="live" onclick="hideForm(), livevalues()">
+            <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(), historiavalues(), exit1()">
+            <input type="button" value="Ubicacion en vivo" id="live" onclick="hideForm(), livevalues(), exit2()">
         </form>
 
         <font color=#000000>
@@ -66,32 +66,30 @@
 
         <form 
             style="display: none; position:absolute; top:250px; left:10px; z-index: 10;" 
-            name="form_fecha" id="form_fecha" method="post" autocomplete="off">
+            name="form_fecha" id="form_fecha" autocomplete="off"
+            method="POST" action="/create">
 
             <label for="inicio">Selecciona la fecha y hora del inicio del recorrido:</label>
             <input type="datetime-local" name="inicio" id="inicio" required><br>
             <label for="fin">Selecciona la fecha y hora del fin del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" required><br><br>
-            <input type="button" value="Submit" id="btnSubmit" onclick="testVariable()">
+            <input type="submit" value="Submit" id="btnSubmit">
         </form>
     </div>
     
     <script>
-        function testVariable() {
-            var strText = document.getElementById("inicio").value;
-            var strText1 = document.getElementById("fin").value;
-            document.getElementById("long").innerHTML = strText;
-            document.getElementById("lat").innerHTML = strText1;
-        }
+        
         function showForm() {
             document.getElementById('form_fecha').style.display = 'block';
         }
         function hideForm() {
             document.getElementById('form_fecha').style.display = 'none';
-        
-        function lockCoordinates() {
+        }
+        function exit1() {
             clearInterval(update);
         }
+        function exit2() {
+            clearInterval(update2);
         }
     </script>
 
@@ -106,10 +104,10 @@
             zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
             });
         
-            var marker = new google.maps.Marker({
-                position: {lat:10.949185 ,lng: -74.803391},
-                map: map
-                });
+        //    var marker = new google.maps.Marker({
+        //        position: {lat:10.949185 ,lng: -74.803391},
+        //        map: map
+        //        });
         }
     </script>
 
@@ -168,25 +166,19 @@
             var map = new google.maps.Map(document.getElementById('map'),{
             zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
             });  
-            var marker = new google.maps.Marker({
-                position: {lat:10.949185 ,lng: -74.803391},
-                map: map
-                });
-
-            update2 = setInterval(function () {
-
-
-                document.getElementById("lat").innerHTML = latitud;
-                document.getElementById("long").innerHTML = longitud;
-                document.getElementById("timestamp").innerHTML = fecha;
+            //var marker = new google.maps.Marker({
+             //   position: {lat:10.949185 ,lng: -74.803391},
+             //   map: map
+            //});
+            
+                socket.on('historia', function (msg) {
+                console.log(msg);//---------------------
+            });
+            
 
                 var numlat = parseFloat(latitud);
                 var numlon = parseFloat(longitud);
 
-                var options = {
-                    center:{lat:numlat, lng:numlon}
-                }
-                
 
                 pathCoordinates.push({
                     lat : numlat,
@@ -208,13 +200,11 @@
                     icons: [{
                         icon: lineSymbol,
                         offset: '0',
-                        repeat: '40px'
+                        repeat: '70px'
                     }],
                     JointType: 1,
                     map : map
                 });
-
-            }, 200); //es lo minimo
         }
     </script>
 
