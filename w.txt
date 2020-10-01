@@ -6,7 +6,7 @@ show databases;
 use dblocation;
 
 CREATE TABLE  (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, longitud VARCHAR(60), latitud VARCHAR(60), timestamp VARCHAR(60));
-
+CREATE TABLE  (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, lat DOUBLE, latitud VARC, timestamp VARCHAR(60));
 DESCRIBE nombretabla;
 
 SELECT * FROM nombretabla;
