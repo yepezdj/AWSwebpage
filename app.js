@@ -55,3 +55,5 @@ socket.bind(11000);
 server.listen(50000, () => {
     console.log("Servidor en puerto 50000");
 });
+
+
