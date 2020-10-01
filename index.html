@@ -81,9 +81,9 @@
             var strText = document.getElementById("inicio").value;
             var strText1 = document.getElementById("fin").value;
             document.getElementById("long").innerHTML = strText;
-            document.getElementById("lat").innerHTML = strText1;
-
-            if ("inicio > fin ") {
+            document.getElementById("lat").innerHTML = strText1;           
+            
+            if (((new Date(strText)).getTime())>=((new Date(strText1)).getTime())) {
                 alert("Rango de fecha inválido")
                 update = setInterval(function () {
             document.getElementById("lat").innerHTML = "Error";
@@ -120,6 +120,8 @@
         
             var marker = new google.maps.Marker({
                 position: {lat:10.949185 ,lng: -74.803391},
+                draggable: true,
+                animation: google.maps.Animation.DROP,
                 map: map
                 });
         }
@@ -187,8 +189,29 @@
 
             var marker = new google.maps.Marker({
                 position: {lat:10.949185 ,lng: -74.803391},
+                draggable: true,
+                animation: google.maps.Animation.DROP,
                 map: map
                 });
+
+                function testVariable() {
+            var strText = document.getElementById("inicio").value;
+            var strText1 = document.getElementById("fin").value;
+            document.getElementById("long").innerHTML = strText;
+            document.getElementById("lat").innerHTML = strText1;           
+            
+            if (((new Date(strText)).getTime())>=((new Date(strText1)).getTime())) {
+                alert("Rango de fecha inválido")
+                update = setInterval(function () {
+            document.getElementById("lat").innerHTML = "Error";
+            document.getElementById("long").innerHTML = "Error";
+            document.getElementById("timestamp").innerHTML = "Error";
+              }, 1000);
+
+            } 
+
+        
+        }
 
 
             update2 = setInterval(function () {
