@@ -12,8 +12,9 @@ var socket = dgram.createSocket('udp4');
 //Crear Conexión a la base de datos
 const database = mysql.createConnection({
     host: 'web1.c4jg7pibawyn.us-east-1.rds.amazonaws.com',
+    //
     user: 'admin',
-    password: '',
+    password: 'web04diseno02',
     database: 'web1'
 });
 
