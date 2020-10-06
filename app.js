@@ -11,11 +11,11 @@ var io = socketio.listen(server);
 var socket = dgram.createSocket('udp4');
 //Crear Conexión a la base de datos
 const database = mysql.createConnection({
-    host: 'dblocation.cctsmrpujuus.us-east-1.rds.amazonaws.com',
-    //host: '127.0.0.1',
-    user: 'admin',
-    //user: 'root',
-    password: 'alexander2001',
+    //host: 'dblocation.cctsmrpujuus.us-east-1.rds.amazonaws.com',
+    host: '127.0.0.1',
+    //user: 'admin',
+    user: 'root',
+    //password: 'alexander2001',
     database: 'dblocation'
 });
 
@@ -49,7 +49,8 @@ app.post('/create', urlencodedParser, function (req,res) {
     let query = database.query(sql, (err, result) => {
         if(err){ throw err;}
         //console.log(result);
-	io.sockets.emit('historia', result);
+    io.sockets.emit('historia', result);
+    console.log(result);
 });
 });
 
