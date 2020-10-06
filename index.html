@@ -72,15 +72,13 @@
         </form>
     </div>
 
-    <script>
-        
+    <script>   
         function validate() {
 	        if(document.getElementById('fin').value<=document.getElementById('inicio').value) 
 		    document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
 	        else 
 		    document.getElementById('fin').setCustomValidity('');
         }
-
         function showForm() {
             document.getElementById('form_fecha').style.display = 'block';
         }
@@ -125,7 +123,7 @@
                 var options = {
                     center:{lat:numlat, lng:numlon}
                 }
-
+                
                 pathCoordinates.push({
                     lat : numlat,
                     lng : numlon
