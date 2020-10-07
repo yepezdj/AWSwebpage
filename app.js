@@ -9,7 +9,6 @@ var app = express();
 var server = require('http').Server(app);       
 var io = socketio.listen(server);
 var socket = dgram.createSocket('udp4');
-require('dotenv').config({path: __dirname + '/.env'})
 //Crear Conexión a la base de datos
 const database = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -48,7 +47,8 @@ app.post('/create', urlencodedParser, function (req,res) {
     let query = database.query(sql, (err, result) => {
         if(err){ throw err;}
         //console.log(result);
-	io.sockets.emit('historia', result);
+    io.sockets.emit('historia', result);
+    console.log(result);
 });
 });
 
