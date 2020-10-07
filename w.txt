@@ -66,9 +66,7 @@ function lockCoordinates() {
 getlocationun.ddns.net
 
 
-
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
 var init = request.body.datetimeinit;
     var fin = request.body.datetimefin;
 
@@ -85,7 +83,6 @@ var app = express();
 var server = require('http').Server(app);   
 
 var express = require('express');
-
 app.get('/', (request, response) => {
     response.writeHead(200, {'content-type': 'text/html'});
     var file = fs.createReadStream('index.html');
@@ -122,7 +119,9 @@ msg1 = msg.toString().split(",")
 Edgar Alexander Herrera Gamarra3:02
 msg1 = result.toString().split(",")
 console.log(msg1[0]);
-T�4:41
+
+Tï¿½4:41
+
 https://medium.com/@kcabading/getting-a-free-domain-for-your-ec2-instance-3ac2955b0a2f#:~:text=your%20free%20domain-,Get%20your%20Free%20Domain,%2D%3E%20Register%20a%20new%20domain.
 Edgar Alexander Herrera Gamarra4:51
 getlocation.ddns.net
