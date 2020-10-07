@@ -6,7 +6,8 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        var socket = io.connect('http://localhost:50000');
+        //var socket = io.connect('http://localhost:50000');
+        var socket = io.connect('http://54.227.210.76:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             latitud = coord[0];
@@ -57,8 +58,6 @@
             <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 177px;" ><p id="timestamp"></p></h4>
         </font>
 
-
-
         <form
             style="display: none; position:absolute; top:250px; left:10px; z-index: 10;"
             name="form_fecha" id="form_fecha" autocomplete="off"
@@ -72,13 +71,15 @@
         </form>
     </div>
 
-    <script>   
+    <script>
+        
         function validate() {
 	        if(document.getElementById('fin').value<=document.getElementById('inicio').value) 
 		    document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
 	        else 
 		    document.getElementById('fin').setCustomValidity('');
         }
+
         function showForm() {
             document.getElementById('form_fecha').style.display = 'block';
         }
@@ -123,7 +124,7 @@
                 var options = {
                     center:{lat:numlat, lng:numlon}
                 }
-                
+
                 pathCoordinates.push({
                     lat : numlat,
                     lng : numlon
