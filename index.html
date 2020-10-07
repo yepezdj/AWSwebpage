@@ -6,7 +6,7 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        var socket = io.connect('http://54.227.210.76:50000');
+        var socket = io.connect('http://3.215.220.179:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             latitud = coord[0];
@@ -19,12 +19,12 @@
 
     <style>
          #map {
-        height: 100%;
-        width: 100%;
-        position:absolute;
-        top: 0;
-        left: 0;
-        z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
+                height: 100%;
+                width: 100%;
+                position:absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
             }
    </style>
 
@@ -43,27 +43,19 @@
 
         <font color=#000000>
             <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 10px;" ><i>LOCATION</i></h1>
-        </font>
-        <font color=#000000>
+
             <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 100px;" ><i>-Latitud:</i></h2>
-        </font>
-        <font color=#000000>
+
             <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3cm; top: 97px;" ><p id="lat"></p></h2>
-        </font>
-        <font color=#000000>
+
             <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 140px;" ><i>-Longitud:</i></h3>
-        </font>
-        <font color=#000000>
+
             <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.5cm; top: 137px;" ><p id="long"></p></h3>
-        </font>
-        <font color=#000000>
+
             <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 180px;" ><i>-Timestamp:</i></h4>
-        </font>
-        <font color=#000000>
+            
             <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 177px;" ><p id="timestamp"></p></h4>
         </font>
-
-
 
         <form
             style="display: none; position:absolute; top:250px; left:10px; z-index: 10;"
@@ -74,11 +66,19 @@
             <input type="datetime-local" name="inicio" id="inicio" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" required><br><br>
-            <input type="submit" value="Submit" id="btnSubmit">
+            <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
         </form>
     </div>
 
     <script>
+        
+        function validate() {
+	        if(document.getElementById('fin').value<=document.getElementById('inicio').value) 
+		    document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
+	        else 
+		    document.getElementById('fin').setCustomValidity('');
+        }
+
         function showForm() {
             document.getElementById('form_fecha').style.display = 'block';
         }
@@ -99,7 +99,6 @@
             var map = new google.maps.Map(document.getElementById('map'),{
             zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
             });
-
         }
     </script>
 
@@ -124,7 +123,6 @@
                 var options = {
                     center:{lat:numlat, lng:numlon}
                 }
-
 
                 pathCoordinates.push({
                     lat : numlat,
@@ -152,36 +150,52 @@
                     map : map
                 });
 
-            }, 200); //es lo minimo
+            }, 200);
         }
         function historiavalues() {
-            var map = new google.maps.Map(document.getElementById('map'),{
-            zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
-            });
+            //polyline with historics values
+            socket.on('historia', function (result) {
+            console.log(result);//---------------------
 
-                socket.on('historia', function (result) {
-                console.log(result);//---------------------
+                if (Array.isArray(result) && result.length){
+                    // array exists and is not empty
+                    var map = new google.maps.Map(document.getElementById('map'),{
+                    zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+                    });
 
-                pathCoordinate = result;
-                var lineSymbol = {
-                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-                };
-                new google.maps.Polyline({
-                    path : pathCoordinate,
-                    geodesic : true,
-                    strokeColor : '#003bd5',
-                    strokeOpacity : 1,
-                    strokeWeight : 2,
-                    icons: [{
-                        icon: lineSymbol,
-                        offset: '0',
-                        repeat: '70px'
-                    }],
-                    JointType: 1,
-                    map : map
-                });
+                    pathCoordinate = result;
+                    var lineSymbol = {
+                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    };
+                    new google.maps.Polyline({
+                        path : pathCoordinate,
+                        geodesic : true,
+                        strokeColor : '#003bd5',
+                        strokeOpacity : 1,
+                        strokeWeight : 2,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '70px'
+                        }],
+                        JointType: 1,
+                        map : map
+                    });
+                    //center in the last polyline ponit
+                    console.log(pathCoordinate.pop());
+                    ncenter = pathCoordinate.pop();
+                    var options = {
+                        center: ncenter
+                    }
+                    map.setOptions(options);
+                }
+                else{
+                    var map = new google.maps.Map(document.getElementById('map'),{
+                    zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+                    }); 
+                }
             });
-            window.stop();
+            window.stop();     
         }
     </script>
 

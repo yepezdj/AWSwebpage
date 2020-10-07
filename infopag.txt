@@ -1,0 +1,10 @@
+mysql -u admin -p -h web1.c4jg7pibawyn.us-east-1.rds.amazonaws.com -P 3306 -D web1
+
+USE web1;
+DESCRIBE web1;
+SELECT * FROM web1;
+
+https://oscarabadfolgueira.com/crear-una-base-datos-mysql-desde-consola/
+https://www.ripnethosting.com/comandos-para-administrar-bases-de-datos-mysql-desde-ssh/
+
+CREATE TABLE nombre (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, longitud VARCHAR(60), latitud VARCHAR(60), timestamp VARCHAR(60));

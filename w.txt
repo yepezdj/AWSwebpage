@@ -66,9 +66,7 @@ function lockCoordinates() {
 getlocationun.ddns.net
 
 
-Juan Felipe Marquez Escalante0:36
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-Juan Felipe Marquez Escalante0:37
 var init = request.body.datetimeinit;
     var fin = request.body.datetimefin;
 
@@ -77,22 +75,20 @@ var init = request.body.datetimeinit;
         if(err){ throw err;}
         console.log(result);
 	io.sockets.emit('historico', result);
-Juan Felipe Marquez Escalante0:42
+
 urlencodedParser
-Juan Felipe Marquez Escalante0:59
-var bodyParser = require('body-parser');
-Juan Felipe Marquez Escalante1:05
+
+
 var app = express();
 var server = require('http').Server(app);   
-Juan Felipe Marquez Escalante1:06
+
 var express = require('express');
-Juan Felipe Marquez Escalante1:12
 app.get('/', (request, response) => {
     response.writeHead(200, {'content-type': 'text/html'});
     var file = fs.createReadStream('index.html');
     file.pipe(response);
   });
-Juan Felipe Marquez Escalante1:31
+
 var fs = require('fs');
 var dgram = require('dgram');
 var socketio = require('socket.io');
@@ -103,18 +99,18 @@ var app = express();
 var server = require('http').Server(app);       
 var io = socketio.listen(server);
 var socket = dgram.createSocket('udp4');
-Juan Felipe Marquez Escalante1:34
+
 app.get('/', (request, response) => {
     response.writeHead(200, {'content-type': 'text/html'});
     var file = fs.createReadStream('index.html');
     file.pipe(response);
   });
-Juan Felipe Marquez Escalante1:35
+
 socket.bind(50000);
 server.listen(15002, () => {
     console.log("Servidor abierto en puerto 15002");
 });
-Juan Felipe Marquez Escalante1:50
+
 polilinea se lo pasas asi [ {lat,long}, {lat,long}, {lat,long} ]
 Edgar Alexander Herrera Gamarra2:14
 https://github.com/cats0414/MapsGPS/blob/master/Pagina%20web/views/index.html
@@ -123,7 +119,9 @@ msg1 = msg.toString().split(",")
 Edgar Alexander Herrera Gamarra3:02
 msg1 = result.toString().split(",")
 console.log(msg1[0]);
-T�4:41
+
+Tï¿½4:41
+
 https://medium.com/@kcabading/getting-a-free-domain-for-your-ec2-instance-3ac2955b0a2f#:~:text=your%20free%20domain-,Get%20your%20Free%20Domain,%2D%3E%20Register%20a%20new%20domain.
 Edgar Alexander Herrera Gamarra4:51
 getlocation.ddns.net
