@@ -6,6 +6,7 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
+        //var socket = io.connect('http://localhost:50000');
         var socket = io.connect('http://54.227.210.76:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
@@ -27,7 +28,7 @@
                 z-index: 0;
             }
    </style>
-    
+
 </head>
 
 <body>
@@ -53,7 +54,7 @@
             <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.5cm; top: 137px;" ><p id="long"></p></h3>
 
             <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 180px;" ><i>-Timestamp:</i></h4>
-            
+
             <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 177px;" ><p id="timestamp"></p></h4>
         </font>
 
@@ -71,11 +72,11 @@
     </div>
 
     <script>
-        
+
         function validate() {
-	        if(document.getElementById('fin').value<=document.getElementById('inicio').value) 
+	        if(document.getElementById('fin').value<=document.getElementById('inicio').value)
 		    document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
-	        else 
+	        else
 		    document.getElementById('fin').setCustomValidity('');
         }
 
@@ -195,10 +196,10 @@
                     zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
                     });
 
-                    alert("No hay recorrido entre esas fechas."); 
+                    alert("No hay recorrido entre esas fechas.");
                 }
             });
-            window.stop();     
+            window.stop();
         }
     </script>
 
