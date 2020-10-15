@@ -9,13 +9,14 @@ var app = express();
 var server = require('http').Server(app);       
 var io = socketio.listen(server);
 var socket = dgram.createSocket('udp4');
-require('dotenv').config({path: __dirname + '/.env'})
 //Crear Conexión a la base de datos
 const database = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_DATABASE
+    host: 'dblocation.cctsmrpujuus.us-east-1.rds.amazonaws.com',
+    //host: '127.0.0.1',
+    user: 'admin',
+    //user: 'root',
+    password: 'alexander2001',
+    database: 'dblocation'
 });
 
 socket.on('message', (content, rinfo) => {
