@@ -7,7 +7,7 @@
     <script src='/socket.io/socket.io.js'></script>
     <script>
         //var socket = io.connect('http://localhost:50000');
-        var socket = io.connect('http://54.227.210.76:50000');
+        var socket = io.connect('http://18.204.193.250:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             latitud = coord[0];
@@ -64,9 +64,9 @@
             method="POST" action="/create">
 
             <label for="inicio">Selecciona fecha y hora de inicio del recorrido:</label>
-            <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
+            <input type="datetime-local" name="inicio" id="inicio" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
-            <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
+            <input type="datetime-local" name="fin" id="fin" required><br><br>
             <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
         </form>
     </div>
@@ -153,7 +153,6 @@
 
             }, 200);
         }
-
         function historiavalues() {
             //polyline with historics values
             socket.on('historia', function (result) {
@@ -183,7 +182,7 @@
                         JointType: 1,
                         map : map
                     });
-                    //center in the last polyline point
+                    //center in the last polyline ponit
                     console.log(pathCoordinate.pop());
                     ncenter = pathCoordinate.pop();
                     var options = {
@@ -194,9 +193,7 @@
                 else{
                     var map = new google.maps.Map(document.getElementById('map'),{
                     zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
-                    });
-
-                    alert("No hay recorrido entre esas fechas."); 
+                    }); 
                 }
             });
             window.stop();     

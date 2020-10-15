@@ -24,7 +24,7 @@ socket.on('message', (content, rinfo) => {
     //Enviar info a la base de datos
     cont = content.toString().split(",")
     cont = {lat: cont[0], lng: cont[1], timestamp:cont[2]}
-    let sql = 'INSERT INTO datos SET ?';
+    let sql = 'INSERT INTO location SET ?';
     let query = database.query(sql, cont, (err, result) => {
         if (err) throw err;
     });
@@ -44,7 +44,7 @@ app.post('/create', urlencodedParser, function (req,res) {
     inicio = inicio.toString()
     fin = fin.toString()
 
-    let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+    let sql = `SELECT lat, lng FROM location WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
     let query = database.query(sql, (err, result) => {
         if(err){ throw err;}
         //console.log(result);
@@ -57,5 +57,4 @@ socket.bind(11000);
 server.listen(50000, () => {
     console.log("Servidor en puerto 50000");
 });
-
 
