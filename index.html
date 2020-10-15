@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LOCATION
+    </title>
+
+    <script src='/socket.io/socket.io.js'></script>
+    <script>
+        var socket = io.connect('http://3.215.220.179:50000');
+        socket.on('udp message', function (msg) {
+            var coord = msg.split(",");
+            latitud = coord[0];
+            longitud = coord[1];
+            fecha = coord[2];
+            console.log(msg);
+        });
+
+    </script>
+
+    <style>
+         #map {
+                height: 100%;
+                width: 100%;
+                position:absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
+            }
+   </style>
+
+</head>
+
+<body>
+    <div style="position:absolute; top:60px; left:0px; z-index:5; width:370px; height:400px; background-color:#CDCDCD; opacity:0.9">
+
+        <form
+            style="position:absolute; top:80px; left:10px; z-index: 10;"
+            name="formulario_fecha" id="formulario_fecha" method="post">
+
+            <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(), historiavalues(), exit1()">
+            <input type="button" value="Ubicacion en vivo" id="live" onclick="hideForm(), livevalues()">
+        </form>
+
+        <font color=#000000>
+            <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 10px;" ><i>LOCATION</i></h1>
+
+            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 100px;" ><i>-Latitud:</i></h2>
+
+            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3cm; top: 97px;" ><p id="lat"></p></h2>
+
+            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 140px;" ><i>-Longitud:</i></h3>
+
+            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.5cm; top: 137px;" ><p id="long"></p></h3>
+
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 180px;" ><i>-Timestamp:</i></h4>
+            
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 177px;" ><p id="timestamp"></p></h4>
+        </font>
+
+        <form
+            style="display: none; position:absolute; top:250px; left:10px; z-index: 10;"
+            name="form_fecha" id="form_fecha" autocomplete="off"
+            method="POST" action="/create">
+
+            <label for="inicio">Selecciona fecha y hora de inicio del recorrido:</label>
+            <input type="datetime-local" name="inicio" id="inicio" required><br>
+            <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
+            <input type="datetime-local" name="fin" id="fin" required><br><br>
+            <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
+        </form>
+    </div>
+
+    <script>
+        
+        function validate() {
+	        if(document.getElementById('fin').value<=document.getElementById('inicio').value) 
+		    document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
+	        else 
+		    document.getElementById('fin').setCustomValidity('');
+        }
+
+        function showForm() {
+            document.getElementById('form_fecha').style.display = 'block';
+        }
+        function hideForm() {
+            document.getElementById('form_fecha').style.display = 'none';
+        }
+        function exit1() {
+            clearInterval(update);
+        }
+    </script>
+
+    <div id="map">
+    </div>
+
+    <script >
+        var pathCoordinates = Array();
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'),{
+            zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+            });
+        }
+    </script>
+
+    <script >
+        function livevalues() {
+            var map = new google.maps.Map(document.getElementById('map'),{
+            zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+            });
+            var marker = new google.maps.Marker({
+                position: {lat:10.949185 ,lng: -74.803391},
+                map: map
+                });
+
+            update = setInterval(function () {
+                document.getElementById("lat").innerHTML = latitud;
+                document.getElementById("long").innerHTML = longitud;
+                document.getElementById("timestamp").innerHTML = fecha;
+
+                var numlat = parseFloat(latitud);
+                var numlon = parseFloat(longitud);
+
+                var options = {
+                    center:{lat:numlat, lng:numlon}
+                }
+
+                pathCoordinates.push({
+                    lat : numlat,
+                    lng : numlon
+                });
+
+                map.setOptions(options);
+                marker.setPosition({lat:numlat, lng:numlon});
+
+                var lineSymbol = {
+                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                };
+                new google.maps.Polyline({
+                    path : pathCoordinates,
+                    geodesic : true,
+                    strokeColor : '#FF0000',
+                    strokeOpacity : 1,
+                    strokeWeight : 2,
+                    icons: [{
+                        icon: lineSymbol,
+                        offset: '0',
+                        repeat: '40px'
+                    }],
+                    JointType: 1,
+                    map : map
+                });
+
+            }, 200);
+        }
+        function historiavalues() {
+            //polyline with historics values
+            socket.on('historia', function (result) {
+            console.log(result);//---------------------
+
+                if (Array.isArray(result) && result.length){
+                    // array exists and is not empty
+                    var map = new google.maps.Map(document.getElementById('map'),{
+                    zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+                    });
+
+                    pathCoordinate = result;
+                    var lineSymbol = {
+                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    };
+                    new google.maps.Polyline({
+                        path : pathCoordinate,
+                        geodesic : true,
+                        strokeColor : '#003bd5',
+                        strokeOpacity : 1,
+                        strokeWeight : 2,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '70px'
+                        }],
+                        JointType: 1,
+                        map : map
+                    });
+                    //center in the last polyline ponit
+                    console.log(pathCoordinate.pop());
+                    ncenter = pathCoordinate.pop();
+                    var options = {
+                        center: ncenter
+                    }
+                    map.setOptions(options);
+                }
+                else{
+                    var map = new google.maps.Map(document.getElementById('map'),{
+                    zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+                    }); 
+                }
+                window.stop(); 
+            });
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQBGTBKMtCmEGfBu9YqHhXNpHIDormd9o&callback=initMap"></script>
+</body>
+</html>
