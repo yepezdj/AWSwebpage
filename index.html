@@ -64,7 +64,7 @@
             method="POST" action="/create">
 
             <label for="inicio">Selecciona fecha y hora de inicio del recorrido:</label>
-            <input type="datetime-local" name="inicio" id="inicio" required><br>
+            <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" required><br><br>
             <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
@@ -195,7 +195,7 @@
                     var map = new google.maps.Map(document.getElementById('map'),{
                     zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
                     });
-                    
+
                     alert("No hay recorrido entre esas fechas."); 
                 }
             });
