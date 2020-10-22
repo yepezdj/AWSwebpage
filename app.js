@@ -52,7 +52,7 @@ app.post('/create', urlencodedParser, function (req,res) {
     if (camion1=="on"){
         var c=1;
         c = c.toString();
-        let sql = `SELECT lat, lng FROM datos WHERE (timestamp BETWEEN '${inicio}' and '${fin}') AND idc = '${c}'`;
+        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
             //console.log(result);
