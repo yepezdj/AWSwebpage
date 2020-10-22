@@ -58,24 +58,7 @@ app.post('/create', urlencodedParser, function (req,res) {
         console.log(result);
     });
     }
-    if (camion2=="on"){
-        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
-        let query = database.query(sql, (err, result) => {
-            if(err){ throw err;}
-            //console.log(result);
-        io.sockets.emit('historia', result);
-        console.log(result);
-    });
-    }
-    if (camion3=="on"){
-        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
-        let query = database.query(sql, (err, result) => {
-            if(err){ throw err;}
-            //console.log(result);
-        io.sockets.emit('historia', result);
-        console.log(result);
-    });
-    }
+    
 });
 
 socket.bind(11000);
