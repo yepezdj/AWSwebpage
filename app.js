@@ -31,12 +31,7 @@ socket.on('message', (content, rinfo) => {
             if (err) throw err;
         }); 
     }
-    else{
-        let sql2 = 'INSERT INTO datos2 SET ?';
-        let query = database.query(sql2, cont, (err, result) => {
-            if (err) throw err;
-        }); 
-    }
+    
 });
 
 
