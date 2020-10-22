@@ -41,10 +41,10 @@ app.get('/', (request, response) => {
 app.post('/create', urlencodedParser, function (req,res) {
     var inicio = req.body.inicio;
     var fin = req.body.fin;
-    var camion1 = req.body.camion1;
+    var camion2 = req.body.camion2;
     inicio = inicio.toString()
     fin = fin.toString()
-    camion1 = camion1.toString()
+    camion2 = camion2.toString()
     if (camion2=="on"){
         let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
