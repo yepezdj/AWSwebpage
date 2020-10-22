@@ -25,7 +25,7 @@ socket.on('message', (content, rinfo) => {
     cont = content.toString().split(",")
     cont = {lat: cont[0], lng: cont[1], timestamp:cont[2]}
     var cont3 =  cont[3];
-    if(cont3=="2"){
+    if(cont3=="1"){
         let sql1 = 'INSERT INTO datos SET ?';
         let query = database.query(sql1, cont, (err, result) => {
             if (err) throw err;
@@ -63,7 +63,7 @@ app.post('/create', urlencodedParser, function (req,res) {
         c1 = c1.toString()
         var c2=30;
         c2 = c2.toString()
-        let sql = `SELECT lat, lng FROM datos WHERE (timestamp BETWEEN '${inicio}' and '${fin}') AND (id BETWEEN '${c1}' and '${c2}')`;
+        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
             //console.log(result);
@@ -72,7 +72,7 @@ app.post('/create', urlencodedParser, function (req,res) {
     });
     }
     if (camion2=="on"){
-        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+        let sql = `SELECT lat, lng FROM datos2 WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
             //console.log(result);
