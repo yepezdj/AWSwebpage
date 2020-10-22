@@ -46,7 +46,20 @@ app.post('/create', urlencodedParser, function (req,res) {
     fin = fin.toString()
     camion1 = camion1.toString()
     if (camion1=="on"){
-        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+        var c=878;
+        c = c.toString();
+        let sql = `SELECT lat, lng FROM datos WHERE (timestamp BETWEEN '${inicio}' and '${fin}') AND idc = '${c}'`;
+        let query = database.query(sql, (err, result) => {
+            if(err){ throw err;}
+            //console.log(result);
+        io.sockets.emit('historia', result);
+        console.log(result);
+    });
+    }
+    else if(camion2=="on"){
+        var c=130;
+        c = c.toString()
+        let sql = `SELECT lat, lng FROM datos WHERE (timestamp BETWEEN '${inicio}' and '${fin}') AND idc = '${c}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
             //console.log(result);
@@ -55,8 +68,13 @@ app.post('/create', urlencodedParser, function (req,res) {
     });
     }
     else{
-        let sql = `SELECT lat, timestamp FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
-        
+        let sql = `SELECT lat, lng FROM datos2 WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+        let query = database.query(sql, (err, result) => {
+            if(err){ throw err;}
+            //console.log(result);
+        io.sockets.emit('historia', result);
+        console.log(result);
+    });
     }
     
 });
