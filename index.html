@@ -40,13 +40,6 @@
             <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(), historiavalues(), exit1()">
             <input type="button" value="Ubicacion en vivo" id="live" onclick="hideForm(), livevalues()">
         </form>
-        <form
-            style="position:absolute; top:105px; left:10px; z-index: 10;"
-            name="camion" id="camion" method="post">
-
-            <input type="button" value="Camion1" id="historia" onclick="showForm(), historiavalues(), exit1()">
-            <input type="button" value="Camion2" id="live" onclick="hideForm(), livevalues()">
-        </form>
 
         <font color=#000000>
             <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 10px;" ><i>LOCATION</i></h1>
@@ -73,6 +66,9 @@
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
+            <label><input type="checkbox" name="camion1" id="camion1">Camion1</label>
+            <label><input type="checkbox" name="camion2" id="camion2">Camion2</label>
+            <label><input type="checkbox" name="camion3" id="camion3">Camion3</label>
             <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
         </form>
     </div>
