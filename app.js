@@ -56,6 +56,8 @@ app.post('/create', urlencodedParser, function (req,res) {
     inicio = inicio.toString()
     fin = fin.toString()
     camion1 = camion1.toString()
+    camion2 = camion2.toString()
+    camion3 = camion3.toString()
     if (camion1=="on"){
         var c1=1;
         c1 = c1.toString()
