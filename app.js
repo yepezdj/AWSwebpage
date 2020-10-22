@@ -11,7 +11,7 @@ var io = socketio.listen(server);
 var socket = dgram.createSocket('udp4');
 app.use(express.json({ limit: '1mb' }));
 //Crear Conexión a la base de datos
-//require('dotenv').config({path: __dirname + '/.env'})
+require('dotenv').config({path: __dirname + '/.env'})
 const database = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
