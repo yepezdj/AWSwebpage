@@ -142,24 +142,52 @@
 
                 var numlat = parseFloat(latitud);
                 var numlon = parseFloat(longitud);
+                var camion = parseInt(idc);
 
-                var options = {
+                if (camion == 1) {
+
+                    var options = {
                     center:{lat:numlat, lng:numlon}
+                    }
+
+                    pathCoordinates.push({
+                        lat : numlat,
+                        lng : numlon
+                    });
+
+                    map.setOptions(options);
+                    marker.setPosition({lat:numlat, lng:numlon});
+
+                    var lineSymbol = {
+                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    };
+                    poly1 = new google.maps.Polyline({
+                        path : pathCoordinates,
+                        geodesic : true,
+                        strokeColor : '#FF0000',
+                        strokeOpacity : 1,
+                        strokeWeight : 2,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '40px'
+                        }],
+                        JointType: 1,
+                        map : map
+                    });
                 }
+                if (camion == 2) {
 
-                pathCoordinates.push({
-                    lat : numlat,
-                    lng : numlon
-                });
+                    pathCoordinates2.push({
+                        lat : numlat,
+                        lng : numlon
+                    });
 
-                map.setOptions(options);
-                marker.setPosition({lat:numlat, lng:numlon});
-
-                var lineSymbol = {
+                    var lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-                };
-                new google.maps.Polyline({
-                    path : pathCoordinates,
+                    };
+                    poly2 = new google.maps.Polyline({
+                    path : pathCoordinates2,
                     geodesic : true,
                     strokeColor : '#FF0000',
                     strokeOpacity : 1,
@@ -171,7 +199,8 @@
                     }],
                     JointType: 1,
                     map : map
-                });
+                });         
+                } 
 
             }, 200);
         }
