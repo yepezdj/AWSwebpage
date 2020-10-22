@@ -56,6 +56,10 @@
             <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 190px;" ><i>-Timestamp:</i></h4>
             
             <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 187px;" ><p id="timestamp"></p></h4>
+
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 230px;" ><i>-Camion:</i></h4>
+            
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 227px;" ><p id="camion"></p></h4>
         </font>
 
         <form
@@ -67,9 +71,12 @@
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
-            <label><input type="checkbox" name="camion1" id="camion1">Camion1</label>
-            <label><input type="checkbox" name="camion2" id="camion2">Camion2</label>
-            <label><input type="checkbox" name="camion3" id="camion3">Ambos</label>
+            <input type="radio" id="male" name="id" value="1">
+            <label for="male">Camion 1</label><br>
+            <input type="radio" id="female" name="id" value="2">
+            <label for="female">Camion 2</label><br>
+            <input type="radio" id="other" name="id" value="3">
+            <label for="other">Ambos</label>
             <input type="submit" value="Submit" id="btnSubmit" onclick="validate(), ver()">
         </form>
     </div>
@@ -134,6 +141,7 @@
                 document.getElementById("lat").innerHTML = latitud;
                 document.getElementById("long").innerHTML = longitud;
                 document.getElementById("timestamp").innerHTML = fecha;
+                document.getElementById("camion").innerHTML = idc;
 
                 var numlat = parseFloat(latitud);
                 var numlon = parseFloat(longitud);
@@ -175,7 +183,9 @@
             //polyline with historics values
             socket.on('historia', function (result) {
             console.log(result);//---------------------
-
+                if (){
+                    
+                }
                 if (Array.isArray(result) && result.length){
                     // array exists and is not empty
                     var map = new google.maps.Map(document.getElementById('map'),{
@@ -187,6 +197,7 @@
                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                     };
                     new google.maps.Polyline({
+                        
                         path : pathCoordinate,
                         geodesic : true,
                         strokeColor : '#003bd5',
