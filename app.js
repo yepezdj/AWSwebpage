@@ -9,8 +9,9 @@ var app = express();
 var server = require('http').Server(app);       
 var io = socketio.listen(server);
 var socket = dgram.createSocket('udp4');
+app.use(express.json({ limit: '1mb' }));
 //Crear Conexión a la base de datos
-require('dotenv').config({path: __dirname + '/.env'})
+//require('dotenv').config({path: __dirname + '/.env'})
 const database = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -39,7 +40,31 @@ socket.on('message', (content, rinfo) => {
     }
 });
 
+app.post('/historical', (req, res) => {
+        var numlat = req.body.o.lat;
+        var numlng = req.body.o.lng;
 
+        numlat = parseFloat(numlat.toString());
+        numlng = parseFloat(numlng.toString());
+
+        var precision = 0.0005;
+        var legend = 4;
+        r1numlat = parseFloat(numlat) + precision;
+        r1numlat = r1numlat.toFixed(legend);
+        r2numlat = numlat - precision;
+        r2numlat = r2numlat.toFixed(legend);
+        ////////////////////////// 
+        r1numlng = parseFloat(numlng) + precision;
+        r1numlng = r1numlng.toFixed(legend);
+        r2numlng = numlng - precision;
+        r2numlng = r2numlng.toFixed(legend);
+        let sql = `SELECT * FROM datos WHERE (lat BETWEEN ${r2numlat} AND ${r1numlat}) AND (lng BETWEEN ${r2numlng} AND ${r1numlng})`;
+        let query = database.query(sql, (err, result) => {
+            if (err) throw err;
+            //console.log(result);
+            res.end(JSON.stringify(result));
+        });
+});
 
 app.get('/', (request, response) => {
     response.writeHead(200, {'content-type': 'text/html'});
@@ -56,13 +81,8 @@ app.post('/create', urlencodedParser, function (req,res) {
     inicio = inicio.toString()
     fin = fin.toString()
     camion1 = camion1.toString()
-    camion2 = camion2.toString()
-    camion3 = camion3.toString()
+
     if (camion1=="on"){
-        var c1=1;
-        c1 = c1.toString()
-        var c2=30;
-        c2 = c2.toString()
         let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
