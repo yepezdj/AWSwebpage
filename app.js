@@ -39,6 +39,9 @@ app.get('/', (request, response) => {
 });
 
 app.post('/create', urlencodedParser, function (req,res) {
+    var camion1 = "off";
+    var camion2 = "off";
+    var camion3 = "off";
     var inicio = req.body.inicio;
     var fin = req.body.fin;
     var camion1 = req.body.camion1;
@@ -47,7 +50,8 @@ app.post('/create', urlencodedParser, function (req,res) {
     inicio = inicio.toString()
     fin = fin.toString()
     camion1 = camion1.toString()
-
+    camion2 = camion2.toString()
+    camion3 = camion3.toString()
     if (camion1=="on"){
         let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
