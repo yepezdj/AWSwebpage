@@ -24,7 +24,7 @@ socket.on('message', (content, rinfo) => {
     //Enviar info a la base de datos
     cont = content.toString().split(",")
     cont = {lat: cont[0], lng: cont[1], timestamp:cont[2]}
-    var cont3 = cont[0];
+    var cont3 = cont[3];
     if(cont3=="1"){
         let sql1 = 'INSERT INTO datos SET ?';
         let query = database.query(sql1, cont, (err, result) => {
