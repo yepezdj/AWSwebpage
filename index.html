@@ -63,7 +63,7 @@
         </font>
 
         <form
-            style="display: none; position:absolute; top:250px; left:10px; z-index: 10;"
+            style="display: none; position:absolute; top:280px; left:10px; z-index: 10;"
             name="form_fecha" id="form_fecha" autocomplete="off"
             method="POST" action="/create">
 
@@ -71,12 +71,9 @@
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
-            <input type="radio" id="male" name="id" value="1">
-            <label for="male">Camion 1</label><br>
-            <input type="radio" id="female" name="id" value="2">
-            <label for="female">Camion 2</label><br>
-            <input type="radio" id="other" name="id" value="3">
-            <label for="other">Ambos</label>
+            <label><input type="checkbox" name="camion1" id="camion1">Camion1</label>
+            <label><input type="checkbox" name="camion2" id="camion2">Camion2</label>
+            <label><input type="checkbox" name="camion3" id="camion3">Ambos</label>
             <input type="submit" value="Submit" id="btnSubmit" onclick="validate(), ver()">
         </form>
     </div>
