@@ -42,6 +42,7 @@ app.post('/create', urlencodedParser, function (req,res) {
     var inicio = req.body.inicio;
     var fin = req.body.fin;
     var camion1 = req.body.camion1;
+    console.log(camion1);
     var camion2 = req.body.camion2;
     var camion3 = req.body.camion3;
     inicio = inicio.toString()
