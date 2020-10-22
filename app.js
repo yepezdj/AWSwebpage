@@ -22,12 +22,10 @@ socket.on('message', (content, rinfo) => {
     console.log(`Server got: ${content} from ${rinfo.address}:${rinfo.port}`);
     io.sockets.emit('udp message', content.toString());
     //Enviar info a la base de datos
-    cont = content.split(",")
-    cont3 = cont[3];
-    cont = cont.toString()
+    cont = content.toString().split(",")
     cont = {lat: cont[0], lng: cont[1], timestamp:cont[2]}
-    
-    if(cont3=="1"){
+    var cont3 =  cont[3];
+    if(cont3=="2"){
         let sql1 = 'INSERT INTO datos SET ?';
         let query = database.query(sql1, cont, (err, result) => {
             if (err) throw err;
