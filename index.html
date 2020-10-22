@@ -6,12 +6,14 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
+        //var socket = io.connect('http://localhost:50000');
         var socket = io.connect('http://54.227.210.76:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             latitud = coord[0];
             longitud = coord[1];
             fecha = coord[2];
+            idc= coord[3];
             console.log(msg);
         });
 
@@ -27,38 +29,43 @@
                 z-index: 0;
             }
    </style>
-    
+
 </head>
 
 <body>
     <div style="position:absolute; top:60px; left:0px; z-index:5; width:370px; height:400px; background-color:#CDCDCD; opacity:0.9">
 
         <form
-            style="position:absolute; top:80px; left:10px; z-index: 10;"
+            style="position:absolute; top:65px; left:10px; z-index: 10;"
             name="formulario_fecha" id="formulario_fecha" method="post">
 
             <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(), historiavalues(), exit1()">
             <input type="button" value="Ubicacion en vivo" id="live" onclick="hideForm(), livevalues()">
+            <input type="button" value="Tiempo de ubicaciones historicas" id="live" onclick="hideForm(), timebasedloc(), exit1()">
         </form>
 
         <font color=#000000>
-            <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 10px;" ><i>LOCATION</i></h1>
+            <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: -10px;" ><i>LOCATION</i></h1>
 
-            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 100px;" ><i>-Latitud:</i></h2>
+            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 105px;" ><i>-Latitud:</i></h2>
 
-            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3cm; top: 97px;" ><p id="lat"></p></h2>
+            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3cm; top: 102px;" ><p id="lat"></p></h2>
 
-            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 140px;" ><i>-Longitud:</i></h3>
+            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 145px;" ><i>-Longitud:</i></h3>
 
-            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.5cm; top: 137px;" ><p id="long"></p></h3>
+            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.5cm; top: 142px;" ><p id="long"></p></h3>
 
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 180px;" ><i>-Timestamp:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 185px;" ><i>-Timestamp:</i></h4>
             
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 177px;" ><p id="timestamp"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 182px;" ><p id="timestamp"></p></h4>
+
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 225px;" ><i>-Camion:</i></h4>
+            
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2cm; top: 220px;" ><p id="camion"></p></h4>
         </font>
 
         <form
-            style="display: none; position:absolute; top:250px; left:10px; z-index: 10;"
+            style="display: none; position:absolute; top:275px; left:10px; z-index: 10;"
             name="form_fecha" id="form_fecha" autocomplete="off"
             method="POST" action="/create">
 
@@ -66,16 +73,32 @@
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
-            <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
+            <label><input type="checkbox" name="camion1" id="camion1" required>Camion1</label>
+            <label><input type="checkbox" name="camion2" id="camion2">Camion2</label>
+            <label><input type="checkbox" name="camion3" id="camion3">Ambos</label>
+            <input type="submit" value="Submit" id="btnSubmit" onclick="validate(), ver()">
         </form>
     </div>
 
     <script>
-        
+        function ver() {
+	        if(document.getElementById('camion1').value=="on"){
+            document.getElementById('camion2').value="off";
+            document.getElementById('camion3').value=="off";
+            }
+            if(document.getElementById('camion2').value=="on"){
+            document.getElementById('camion2').value="off";
+            document.getElementById('camion3').value="off";
+            }
+            if(document.getElementById('camion3').value=="on"){
+            document.getElementById('camion2').value="off";
+            document.getElementById('camion3').value="off";
+            } 
+        }
         function validate() {
-	        if(document.getElementById('fin').value<=document.getElementById('inicio').value) 
+	        if(document.getElementById('fin').value<=document.getElementById('inicio').value)
 		    document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
-	        else 
+	        else
 		    document.getElementById('fin').setCustomValidity('');
         }
 
@@ -95,8 +118,9 @@
 
     <script >
         var pathCoordinates = Array();
+        var pathCoordinates2 = Array();
         function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'),{
+            map = new google.maps.Map(document.getElementById('map'),{
             zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
             });
         }
@@ -105,20 +129,33 @@
     <script >
         function livevalues() {
             var map = new google.maps.Map(document.getElementById('map'),{
-            zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+                zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
             });
+
             var marker = new google.maps.Marker({
                 position: {lat:10.949185 ,lng: -74.803391},
-                map: map
-                });
+                map: map,
+                animation: google.maps.Animation.DROP
+            });
 
+            marker.addListener("click", toggleBounce);
+            function toggleBounce() {
+                if (marker.getAnimation() !== null) {
+                marker.setAnimation(null);
+                } else {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                }
+            }
+            
             update = setInterval(function () {
                 document.getElementById("lat").innerHTML = latitud;
                 document.getElementById("long").innerHTML = longitud;
                 document.getElementById("timestamp").innerHTML = fecha;
+                /* document.getElementById("camion").innerHTML = idc; */
 
                 var numlat = parseFloat(latitud);
                 var numlon = parseFloat(longitud);
+                var camion = parseInt(idc);
 
                 var options = {
                     center:{lat:numlat, lng:numlon}
@@ -148,27 +185,34 @@
                     }],
                     JointType: 1,
                     map : map
-                });
-
-            }, 200);
+                });      
+            }, 500);
         }
 
         function historiavalues() {
+
+            document.getElementById("lat").innerHTML = "";
+            document.getElementById("long").innerHTML = "";
+            document.getElementById("timestamp").innerHTML = "";
+            var map = new google.maps.Map(document.getElementById('map'),{
+                zoom: 13, center: {lat:10.949185 ,lng: -74.803391}
+            });
+
             //polyline with historics values
             socket.on('historia', function (result) {
             console.log(result);//---------------------
-
+            
                 if (Array.isArray(result) && result.length){
                     // array exists and is not empty
-                    var map = new google.maps.Map(document.getElementById('map'),{
-                    zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+                    map = new google.maps.Map(document.getElementById('map'),{
+                    zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
                     });
 
                     pathCoordinate = result;
                     var lineSymbol = {
                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                     };
-                    new google.maps.Polyline({
+                        polyline = new google.maps.Polyline({
                         path : pathCoordinate,
                         geodesic : true,
                         strokeColor : '#003bd5',
@@ -183,7 +227,6 @@
                         map : map
                     });
                     //center in the last polyline point
-                    console.log(pathCoordinate.pop());
                     ncenter = pathCoordinate.pop();
                     var options = {
                         center: ncenter
@@ -192,13 +235,105 @@
                 }
                 else{
                     var map = new google.maps.Map(document.getElementById('map'),{
-                    zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+                    zoom: 13, center: {lat:10.949185 ,lng: -74.803391}
                     });
-
-                    alert("No hay recorrido entre esas fechas."); 
+                    window.alert("No hay recorrido entre esas fechas.");
                 }
             });
-            window.stop();     
+            window.stop();
+        }
+        var o, Mydata;
+        function timebasedloc() {
+            document.getElementById("lat").innerHTML = "";
+            document.getElementById("long").innerHTML = "";
+            document.getElementById("timestamp").innerHTML = "";
+            const myLatlng = {lat:10.949185 ,lng: -74.803391};
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 16,
+                center: myLatlng,
+            });
+            // Create the initial InfoWindow.
+            let infoWindow = new google.maps.InfoWindow({
+                content: "Click en el mapa para buscar",
+                position: myLatlng,
+            });
+            var auch= [];
+            //var map;
+            infoWindow.open(map);
+            // Configure the click listener.
+            map.addListener("click", (mapsMouseEvent) => {
+                // Close the current InfoWindow.
+                document.getElementById("lat").innerHTML = "";
+                document.getElementById("long").innerHTML = "";
+                document.getElementById("timestamp").innerHTML = "";
+                infoWindow.close();
+                if (typeof markers !== "undefined") {
+                    for (var i=0; i < markers.length; i++) {
+                        markers[i].setMap(null);
+                    }
+                    markers = [];
+                }
+                // Create a new InfoWindow.
+                infoWindow = new google.maps.InfoWindow({
+                position: mapsMouseEvent.latLng,
+                });
+                infoWindow.setContent(
+                JSON.stringify(mapsMouseEvent.latLng.toJSON()),
+                );
+                infoWindow.open(map);
+                auch =JSON.stringify(mapsMouseEvent.latLng.toJSON());
+                o = JSON.parse(auch);
+                Mydata= get(o);
+             
+            });
+           
+        }
+
+        async function get(o){
+            const latLng = {o};
+                const options = {
+                    method: "POST",
+                    body: JSON.stringify(latLng),
+                    headers: {
+                        "Content-Type": "application/json"
+                }
+            };
+            const response = await fetch('/historical', options);
+            data =  await response.json();
+            console.log(data);
+
+            //var polyline;
+
+            if (Array.isArray(data) && data.length){
+
+                if (typeof markers == "undefined") {
+                    //polyline.setMap(null);
+                    markers = [];
+                }
+            
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+                    var pos = {
+                    lat: element['lat'],
+                    lng: element['lng']
+                    };
+                    
+                    var marker = new google.maps.Marker({
+                        position: pos,
+                        map: map,                   
+                    });
+                    markers.push(marker);    
+                }
+
+                var show =data.pop()
+                document.getElementById("lat").innerHTML = show.lat;
+                document.getElementById("long").innerHTML = show.lng;
+                document.getElementById("timestamp").innerHTML = show.timestamp;
+                return data
+            }
+            else{
+                window.alert("No hay recorridos en este lugar.");
+            }             
         }
     </script>
 
