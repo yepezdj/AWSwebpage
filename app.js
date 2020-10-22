@@ -23,8 +23,8 @@ socket.on('message', (content, rinfo) => {
     io.sockets.emit('udp message', content.toString());
     //Enviar info a la base de datos
     cont = content.toString().split(",")
-    cont = {lat: cont[0], lng: cont[1], timestamp:cont[2], idc: cont[3]}
-    let sql = 'INSERT INTO datos2 SET ?';
+    cont = {lat: cont[0], lng: cont[1], timestamp:cont[2]}
+    let sql = 'INSERT INTO prueba SET ?';
     let query = database.query(sql, cont, (err, result) => {
         if (err) throw err;
     });
@@ -48,9 +48,9 @@ app.post('/create', urlencodedParser, function (req,res) {
     fin = fin.toString()
     camion1 = camion1.toString()
     if (camion1=="on"){
-        var c=30;
+        var c=1;
         c = c.toString()
-        let sql = `SELECT lat, lng FROM datos WHERE (timestamp BETWEEN '${inicio}' and '${fin}') AND id = '${c}'`;
+        let sql = `SELECT lat, lng FROM prueba WHERE (timestamp BETWEEN '${inicio}' and '${fin}') AND id = '${c}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
             //console.log(result);
