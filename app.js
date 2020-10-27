@@ -11,12 +11,15 @@ var io = socketio.listen(server);
 var socket = dgram.createSocket('udp4');
 app.use(express.json({ limit: '1mb' }));
 //Crear Conexión a la base de datos
-require('dotenv').config({path: __dirname + '/.env'})
+//require('dotenv').config({path: __dirname + '/.env'})
 const database = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_DATABASE
+    //host: process.env.DB_HOST,
+    host: '127.0.0.1',
+    user :'root',
+    //user: process.env.DB_USER,
+    //password: process.env.DB_PASS,
+    //database: process.env.DB_DATABASE
+    database: 'dblocation'
 });
 
 socket.on('message', (content, rinfo) => {
@@ -72,42 +75,29 @@ app.get('/', (request, response) => {
     file.pipe(response);
 });
 
-app.post('/create', urlencodedParser, function (req,res) {
-    var inicio = req.body.inicio;
-    var fin = req.body.fin;
-    var camion1 = req.body.camion1;
-    var camion2 = req.body.camion2;
-    var camion3 = req.body.camion3;
-    inicio = inicio.toString()
-    fin = fin.toString()
-    camion1 = camion1.toString()
+//app.post('/create', urlencodedParser, function (req,res) {
+app.post('/create', (req, res) => {
+    //console.log(req.body);
+    var inicio = req.body.comienzo;
+    var fin = req.body.final;
+    var camion = req.body.camion;
+    inicio = inicio.toString();
+    fin = fin.toString();
+    camion = camion.toString();
 
-    if (camion1=="on"){
+    if (camion=="Camion 1"){
         let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
-            //console.log(result);
-        io.sockets.emit('historia', result);
-        console.log(result);
-    });
+        res.end(JSON.stringify(result));
+        });
     }
-    if (camion2=="on"){
+    if (camion=="Camion 2"){
         let sql = `SELECT lat, lng FROM datos2 WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
-            //console.log(result);
-        io.sockets.emit('historia', result);
-        console.log(result);
-    });
-    }
-    if (camion3=="on"){
-        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
-        let query = database.query(sql, (err, result) => {
-            if(err){ throw err;}
-            //console.log(result);
-        io.sockets.emit('historia', result);
-        console.log(result);
-    });
+            res.end(JSON.stringify(result));
+        });
     }
 });
 
