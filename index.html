@@ -283,7 +283,7 @@
             socket.on('historia', function (result2) {
             //console.log(result);//---------------------
             
-                if (Array.isArray(result2) && result.length){
+                if (Array.isArray(result2) && result2.length){
                     // array exists and is not empty
                     map = new google.maps.Map(document.getElementById('map'),{
                     zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
@@ -296,7 +296,7 @@
                         polyline = new google.maps.Polyline({
                         path : pathCoordinate,
                         geodesic : true,
-                        strokeColor : '#003bd5',
+                        strokeColor : '#00a455',
                         strokeOpacity : 1,
                         strokeWeight : 2,
                         icons: [{
