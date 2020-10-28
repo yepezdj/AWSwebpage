@@ -86,14 +86,14 @@ app.post('/create', (req, res) => {
     camion = camion.toString();
 
     if (camion=="Camion 1"){
-        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+        let sql = `SELECT lat, lng, timestamp FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
         res.end(JSON.stringify(result));
         });
     }
     if (camion=="Camion 2"){
-        let sql = `SELECT lat, lng FROM datos2 WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+        let sql = `SELECT lat, lng, timestamp FROM datos2 WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
             res.end(JSON.stringify(result));
