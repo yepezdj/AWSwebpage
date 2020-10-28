@@ -285,10 +285,6 @@
             
                 if (Array.isArray(result2) && result2.length){
                     // array exists and is not empty
-                    map = new google.maps.Map(document.getElementById('map'),{
-                    zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
-                    });
-
                     pathCoordinate = result2;
                     var lineSymbol = {
                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
@@ -296,7 +292,7 @@
                         polyline = new google.maps.Polyline({
                         path : pathCoordinate,
                         geodesic : true,
-                        strokeColor : '#00a455',
+                        strokeColor : '#003bd5',
                         strokeOpacity : 1,
                         strokeWeight : 2,
                         icons: [{
@@ -321,6 +317,7 @@
                     window.alert("No hay recorrido entre esas fechas.");
                 }
             });
+
             window.stop();
         }
         var o, Mydata;
