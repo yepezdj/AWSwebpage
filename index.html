@@ -13,7 +13,7 @@
             longitud = coord[1];
             fecha = coord[2];
             idc= coord[3];
-            console.log(msg);
+            //console.log(msg);
         });
 
     </script>
@@ -220,7 +220,7 @@
 
             //polyline with historics values
             socket.on('historia', function (result) {
-            console.log(result);//---------------------
+            //console.log(result);//---------------------
             
                 if (Array.isArray(result) && result.length){
                     // array exists and is not empty
@@ -320,7 +320,7 @@
             };
             const response = await fetch('/historical', options);
             data =  await response.json();
-            console.log(data);
+            //console.log(data);
 
             //var polyline;
 
