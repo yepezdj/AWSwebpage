@@ -176,64 +176,54 @@
                 marker.setAnimation(google.maps.Animation.BOUNCE);
                 }
             }
-            var aux="1";
             update = setInterval(function () {
                 document.getElementById("lat").innerHTML = latitud;
                 document.getElementById("long").innerHTML = longitud;
                 document.getElementById("timestamp").innerHTML = fecha;
                 document.getElementById("camion").innerHTML = idc;
                 if (idc=="1") {
-                    if (aux!=="1") {
-                        lat=null;
-                        lng=null;
+                    var numlat1 = parseFloat(latitud);
+                    var numlon1 = parseFloat(longitud);
+                    var camion1 = parseInt(idc);
+                    var options = {
+                    center:{lat:numlat1, lng:numlon1}
                     }
+                    pathCoordinates1.push({
+                    lat : numlat1,
+                    lng : numlon1
+                    });
+                    map.setOptions(options);
+                    marker.setPosition({lat:numlat1, lng:numlon1});
                     console.log(idc);
-                    console.log(aux);
-                    aux="1";
                 }
                 if (idc=="2") {
-                    if (aux!=="2") {
-                        lat=null;
-                        lng=null
-                    }
+                    var numlat2 = parseFloat(latitud);
+                    var numlon2 = parseFloat(longitud);
+                    var camion2 = parseInt(idc);
+                    pathCoordinates2.push({
+                    lat : numlat2,
+                    lng : numlon2
+                    });
+                    map.setOptions(options);
+                    marker.setPosition({lat:numlat2, lng:numlon2});
                     console.log(idc);
-                    console.log(aux);
-                    aux="2";
                 }
-
-                var numlat = parseFloat(latitud);
-                var numlon = parseFloat(longitud);
-                var camion = parseInt(idc);
-
-                var options = {
-                    center:{lat:numlat, lng:numlon}
-                }
-
-                pathCoordinates.push({
-                    lat : numlat,
-                    lng : numlon
-                });
-
-                map.setOptions(options);
-                marker.setPosition({lat:numlat, lng:numlon});
 
                 var lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                 };
-                new google.maps.Polyline({
-                    path : pathCoordinates,
-                    geodesic : true,
-                    strokeColor : '#FF0000',
-                    strokeOpacity : 1,
-                    strokeWeight : 2,
-                    icons: [{
-                        icon: lineSymbol,
-                        offset: '0',
-                        repeat: '40px'
-                    }],
-                    JointType: 1,
-                    map : map
-                });      
+                var pathCoordinates = [pathCoordinates1, pathCoordinates2];
+                for (let i = 0; i < 2; i++) {
+                var flightPath = new google.maps.Polyline({
+                path: pathCoordinates[i],
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 4,
+                });
+
+                flightPath.setMap(map);
+                }     
             }, 500);
         }
 
