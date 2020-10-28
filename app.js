@@ -106,6 +106,14 @@ app.post('/create', urlencodedParser, function (req,res) {
         io.sockets.emit('historia', result);
         console.log(result);
     });
+
+    let sql2 = `SELECT lat, lng FROM datos2 WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+        let query2 = database.query(sql2, (err, result2) => {
+            if(err){ throw err;}
+            //console.log(result);
+        io.sockets.emit('historia', result2);
+        console.log(result2);
+    });
     }
 });
 
