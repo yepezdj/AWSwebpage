@@ -176,13 +176,12 @@
                 marker.setAnimation(google.maps.Animation.BOUNCE);
                 }
             }
-            
+            var aux="1";
             update = setInterval(function () {
                 document.getElementById("lat").innerHTML = latitud;
                 document.getElementById("long").innerHTML = longitud;
                 document.getElementById("timestamp").innerHTML = fecha;
                 document.getElementById("camion").innerHTML = idc;
-                var aux="1";
                 if (idc=="1") {
                     if (aux!=="1") {
                         lat=null;
