@@ -285,14 +285,14 @@
             
                 if (Array.isArray(result2) && result2.length){
                     // array exists and is not empty
-                    pathCoordinate = result2;
+                    pathCoordinate2 = result2;
                     var lineSymbol = {
                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                     };
                         polyline = new google.maps.Polyline({
-                        path : pathCoordinate,
+                        path : pathCoordinate2,
                         geodesic : true,
-                        strokeColor : '#003bd5',
+                        strokeColor : '#00a355',
                         strokeOpacity : 1,
                         strokeWeight : 2,
                         icons: [{
