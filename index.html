@@ -59,7 +59,7 @@
 
             <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 225px;" ><i>-Camion:</i></h4>
             
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2cm; top: 220px;" ><p id="camion"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2cm; top: 220px;" ><p id="camion" onchange="change()"></p></h4>
         </font>
 
         <form
@@ -140,6 +140,11 @@
         }
         function exit1() {
             clearInterval(update);
+        }
+
+        function change() {
+            pathCoordinates.clear();
+            console.log(idc);
         }
     </script>
 
