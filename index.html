@@ -89,7 +89,31 @@
             $(this).attr('value', 'false');
         }
   
-        $('#checkbox-value').text($('#checkbox1').val());
+        $('#checkbox-value').text($('#camion1').val());
+        });
+
+        $('#checkbox-value').text($('camion2').val());
+
+        $("#checkbox1").on('change', function() {
+        if ($(this).is(':checked')) {
+            $(this).attr('value', 'true');
+        } else {
+            $(this).attr('value', 'false');
+        }
+  
+        $('#checkbox-value').text($('#camion2').val());
+        });
+
+        $('#checkbox-value').text($('camion3').val());
+
+        $("#checkbox1").on('change', function() {
+        if ($(this).is(':checked')) {
+            $(this).attr('value', 'true');
+        } else {
+            $(this).attr('value', 'false');
+        }
+  
+        $('#checkbox-value').text($('#camion3').val());
         });
         function validate() {
 	        if(document.getElementById('fin').value<=document.getElementById('inicio').value)
