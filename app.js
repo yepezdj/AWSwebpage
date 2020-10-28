@@ -75,10 +75,9 @@ app.get('/', (request, response) => {
 app.post('/create', urlencodedParser, function (req,res) {
     var inicio = req.body.inicio;
     var fin = req.body.fin;
-    var camion1 = req.body.isCurrentExperience;
-/*     var camion1 = req.body.something;
+    var camion1 = req.body.camion1;
     var camion2 = req.body.camion2;
-    var camion3 = req.body.camion3; */
+    var camion3 = req.body.camion3;
     inicio = inicio.toString()
     fin = fin.toString()
     if (camion1=='1'){
