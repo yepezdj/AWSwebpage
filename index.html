@@ -72,24 +72,26 @@
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
-            <label><input type="checkbox" name="camion1" id="camion1" value="true">Camion1</label>
-            <label><input type="checkbox" name="camion2" id="camion2" value="true">Camion2</label>
-            <label><input type="checkbox" name="camion3" id="camion3" value="true">Ambos</label>
+            <input type="checkbox" id="something" name="something" value="25" data-val="25" checked="checked" class="option">
+            <label for="something">Something1</label>
+            <input type="checkbox" id="something" name="something" value="25" data-val="25" checked="checked" class="option">
+            <label for="something">Something2</label>
+            <input type="checkbox" id="something" name="something" value="25" data-val="25" checked="checked" class="option">
+            <label for="something">Something3</label>
             <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
         </form>
     </div>
 
     <script>
-        $('#checkbox-value').text($('camion1').val());
-
-        $("#camion1").on('change', function() {
-        if ($(this).is(':checked')) {
-            $(this).attr('value', "true");
-        } else {
-            $(this).attr('value', "false");
+        $('.option').on('change', function() {
+            var something;
+        if ($(this).prop('checked')) {
+            something=25;
+        } 
+        else {
+            something = 0;
         }
-  
-        $('#checkbox-value').text($('#camion1').val());
+        console.log(something);
         });
 
         $('#checkbox-value').text($('camion2').val());
