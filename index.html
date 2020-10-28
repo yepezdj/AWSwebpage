@@ -123,6 +123,13 @@
             }
         });
         });
+
+        $(document).ready(function () {
+
+            $('#camion').on('change', function() {
+                pathCoordinates.clear();
+            });
+        });
     </script>
     <script>
         $('#checkbox-value').text($('camion2').val());
