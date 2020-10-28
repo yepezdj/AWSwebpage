@@ -79,15 +79,18 @@
     </div>
 
     <script>
-        $('.option').on('change', function() {
-        if ($(this).prop('checked')) {
-            $(this).attr('value', 'true');
-        } 
-        else {
-            $(this).attr('value', 'false');
-        }
+        $( document ).ready(function() {
+            $('.option').on('change', function() {
+            var something;
+            if ($(this).prop('checked')) {
+                something=25;
+            } 
+            else {
+                something = 0;
+            }
         console.log(something);
-        });
+ });
+});
 
         $('#checkbox-value').text($('camion2').val());
 
