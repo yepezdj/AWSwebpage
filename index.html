@@ -115,10 +115,12 @@
             $('camion2').prop('checked', false);
         }
         });
+        });
 
+        $(document).ready(function () {
         $('#camion2').change(function () {
         if ($(this).prop('checked')) {
-            $('#camion1').prop('checked', false);
+            $('camion1').prop('checked', false);
         }
         });
         });
