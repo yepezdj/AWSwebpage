@@ -123,39 +123,8 @@
             }
         });
         });
-
-        $(document).ready(function () {
-
-            $('#camion').on('change', function() {
-                pathCoordinates.clear();
-                console.log(idc);
-            });
-        });
     </script>
     <script>
-        $('#checkbox-value').text($('camion2').val());
-
-        $("#camion2").on('change', function() {
-        if ($(this).is(':checked')) {
-            $(this).attr('value', "true");
-        } else {
-            $(this).attr('value', "false");
-        }
-  
-        $('#checkbox-value').text($('#camion2').val());
-        });
-
-        $('#checkbox-value').text($('camion3').val());
-
-        $("#camion3").on('change', function() {
-        if ($(this).is(':checked')) {
-            $(this).attr('value', "true");
-        } else {
-            $(this).attr('value', "false");
-        }
-  
-        $('#checkbox-value').text($('#camion3').val());
-        });
         function validate() {
 	        if(document.getElementById('fin').value<=document.getElementById('inicio').value)
 		    document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
@@ -213,6 +182,13 @@
                 document.getElementById("long").innerHTML = longitud;
                 document.getElementById("timestamp").innerHTML = fecha;
                 document.getElementById("camion").innerHTML = idc;
+                
+                $(document).ready(function () {
+                $('#camion').on('change', function() {
+                    pathCoordinates.clear();
+                    console.log(idc);
+                });
+                });
 
                 var numlat = parseFloat(latitud);
                 var numlon = parseFloat(longitud);
