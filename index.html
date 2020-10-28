@@ -72,7 +72,7 @@
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <label><input type="checkbox" value="0" class="custom-control-input" name="camion1" id="camion1">Camion1</label>
+            <label><input type="checkbox" value="0" class="custom-control-input" name="camion1" id="camion1" checked="checked">Camion1</label>
             <label><input type="checkbox" value="0" class="custom-control-input" name="camion2" id="camion2">Camion2</label>
             <label><input type="checkbox" value="0" class="custom-control-input" name="camion3" id="camion3">Camion3</label>
             <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
@@ -80,7 +80,7 @@
     </div>
     <script type="text/javascript">
         $( document ).ready(function() {
-            $('#camion1').change(function () {
+        $('#camion1').change(function () {
         if ($('#camion1').is(':checked') == true){
            $('#camion1').val('1');
         } else {
@@ -90,7 +90,7 @@
         });
 
         $( document ).ready(function() {
-            $('#camion2').change(function () {
+        $('#camion2').change(function () {
         if ($('#camion2').is(':checked') == true){
            $('#camion2').val('1');
         } else {
@@ -100,7 +100,7 @@
         });
 
         $( document ).ready(function() {
-            $('#camion3').change(function () {
+        $('#camion3').change(function () {
         if ($('#camion3').is(':checked') == true){
            $('#camion3').val('1');
         } else {
@@ -108,6 +108,20 @@
         }
             });
         });
+
+        $(document).ready(function () {
+        $('#camion1').change(function () {
+        if ($(this).prop('checked')) {
+            $('camion2').prop('checked', false);
+        }
+        });
+
+        $('#camion2').change(function () {
+        if ($(this).prop('checked')) {
+            $('#camion1').prop('checked', false);
+        }
+});
+});
     </script>
     <script>
         $('#checkbox-value').text($('camion2').val());
