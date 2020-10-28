@@ -59,7 +59,7 @@
 
             <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 225px;" ><i>-Camion:</i></h4>
             
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3cm; top: 220px;" ><p id="camion" onchange="change()"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3cm; top: 220px;" ><p id="camion"></p></h4>
         </font>
 
         <form
@@ -141,11 +141,6 @@
         function exit1() {
             clearInterval(update);
         }
-
-        function change() {
-            pathCoordinates.clear();
-            console.log(idc);
-        }
     </script>
 
     <div id="map">
@@ -187,13 +182,23 @@
                 document.getElementById("long").innerHTML = longitud;
                 document.getElementById("timestamp").innerHTML = fecha;
                 document.getElementById("camion").innerHTML = idc;
-                
-                $(document).ready(function () {
-                $('#camion').on('change', function() {
+                var aux="1";
+                if (idc=="1") {
+                    if (aux!=="1") {
                     pathCoordinates.clear();
+                    }
                     console.log(idc);
-                });
-                });
+                    console.log(aux);
+                    aux="1";
+                }
+                if (idc=="2") {
+                    if (aux!=="2") {
+                    pathCoordinates.clear();
+                    }
+                    console.log(idc);
+                    console.log(aux);
+                    aux="2";
+                }
 
                 var numlat = parseFloat(latitud);
                 var numlon = parseFloat(longitud);
