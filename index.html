@@ -80,12 +80,11 @@
 
     <script>
         $('.option').on('change', function() {
-            var something;
         if ($(this).prop('checked')) {
-            something=25;
+            $(this).attr('value', 'true');
         } 
         else {
-            something = 0;
+            $(this).attr('value', 'false');
         }
         console.log(something);
         });
