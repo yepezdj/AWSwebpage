@@ -243,6 +243,10 @@
             
                 if (Array.isArray(result) && result.length){
                     // array exists and is not empty
+                    map = new google.maps.Map(document.getElementById('map'),{
+                    zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
+                    });
+
                     pathCoordinate = result;
                     var lineSymbol = {
                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
@@ -276,7 +280,46 @@
                 }
             });
 
+            socket.on('historia', function (result2) {
+            //console.log(result);//---------------------
             
+                if (Array.isArray(result2) && result2.length){
+                    // array exists and is not empty
+                    map = new google.maps.Map(document.getElementById('map'),{
+                    zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
+                    });
+                    pathCoordinate2 = result2;
+                    var lineSymbol = {
+                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    };
+                        polyline = new google.maps.Polyline({
+                        path : pathCoordinate2,
+                        geodesic : true,
+                        strokeColor : '#00a355',
+                        strokeOpacity : 1,
+                        strokeWeight : 2,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '70px'
+                        }],
+                        JointType: 1,
+                        map : map
+                    });
+                    //center in the last polyline point
+                    ncenter = pathCoordinate.pop();
+                    var options = {
+                        center: ncenter
+                    }
+                    map.setOptions(options);
+                }
+                else{
+                    var map = new google.maps.Map(document.getElementById('map'),{
+                    zoom: 13, center: {lat:10.949185 ,lng: -74.803391}
+                    });
+                    window.alert("No hay recorrido entre esas fechas.");
+                }
+            });
 
             window.stop();
         }
