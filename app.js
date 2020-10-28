@@ -89,7 +89,7 @@ app.post('/create', urlencodedParser, function (req,res) {
         console.log(result);
     });
     }
-    if (camion2=="true"){
+    if (camion2=='1'){
         let sql = `SELECT lat, lng FROM datos2 WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
@@ -98,7 +98,7 @@ app.post('/create', urlencodedParser, function (req,res) {
         console.log(result);
     });
     }
-    if (camion3=="true"){
+    if (camion3=='1'){
         let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
