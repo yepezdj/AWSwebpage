@@ -225,10 +225,9 @@
                 var lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                 };
-                if (idc=="1") {
-                    new google.maps.Polyline({
+                new google.maps.Polyline({
                     path : pathCoordinates,
-                    geodesic : false,
+                    geodesic : true,
                     strokeColor : '#FF0000',
                     strokeOpacity : 1,
                     strokeWeight : 2,
@@ -239,24 +238,7 @@
                     }],
                     JointType: 1,
                     map : map
-                });
-                } else {
-                    new google.maps.Polyline({
-                    path : pathCoordinates,
-                    geodesic : false,
-                    strokeColor : '#F000F0',
-                    strokeOpacity : 1,
-                    strokeWeight : 2,
-                    icons: [{
-                        icon: lineSymbol,
-                        offset: '0',
-                        repeat: '40px'
-                    }],
-                    JointType: 1,
-                    map : map
-                });
-                }
-                      
+                });      
             }, 500);
         }
 
