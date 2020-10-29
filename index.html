@@ -6,21 +6,23 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        var socket = io.connect('http://3.215.220.179:50000');
+        var socket = io.connect('http://localhost:50000');
+        //var socket = io.connect('http://54.227.210.76:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
-            id= coord[3];
-            if (id=='1') {
+            ide= coord[3];
+            if (ide=='1') {
                 latitud1 = coord[0];
                 longitud1 = coord[1];
                 fecha1 = coord[2];
+                axis1 = coord[4];
             } 
-            if (id=='2'){
+            if (ide=='2'){
                 latitud2 = coord[0];
                 longitud2 = coord[1];
                 fecha2 = coord[2];
+                axis2 = coord[4];
             }
-            //console.log(msg);
         });
 
     </script>
@@ -39,14 +41,15 @@
 </head>
 
 <body>
-    <div style="position:absolute; top:60px; left:0px; z-index:5; width:370px; height:420px; background-color:#CDCDCD; opacity:0.9">
+    <div style="position:absolute; top:60px; left:0px; z-index:5; width:370px; height:460px; background-color:#CDCDCD; opacity:0.9">
+
         <form
             style="position:absolute; top:65px; left:10px; z-index: 10;"
             name="formulario_fecha" id="formulario_fecha">
 
-            <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(),hideslider(), hide2(), initMap(), exit1()">
-            <input type="button" value="Ubicacion en vivo" id="live" onclick="show2(),hideslider(), hideForm(), livevalues()">
-            <!-- <input type="button" value="Tiempo de ubicaciones historicas" id="live" onclick="hideForm(), hide2(), exit1()"> -->
+            <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(),clearform(),initMap(), hideslider(), hide2(), exit1()">
+            <input type="button" value="Ubicacion en vivo" id="live" onclick="show2(),clearform(),hideslider(), hideForm(), livevalues()">
+
             <select style="display: none" name="menu1" id="menu1">
                 <option>Camion 1</option>
                 <option>Camion 2</option>
@@ -56,29 +59,32 @@
         <font color=#000000>
             <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: -10px;" ><i>LOCATION</i></h1>
 
-            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 105px;" ><i>-Latitud:</i></h2>
+            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 105px;" ><i>-Latitud:</i></h2>
 
-            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3cm; top: 97px;" ><p id="lat"></p></h2>
+            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.3cm; top: 97px;" ><p id="lat"></p></h2>
 
-            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 145px;" ><i>-Longitud:</i></h3>
+            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 145px;" ><i>-Longitud:</i></h3>
 
-            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.5cm; top: 137px;" ><p id="long"></p></h3>
+            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.6cm; top: 137px;" ><p id="long"></p></h3>
 
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 185px;" ><i>-Timestamp:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 185px;" ><i>-Timestamp:</i></h4>
             
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 177px;" ><p id="timestamp"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.3cm; top: 177px;" ><p id="timestamp"></p></h4>
 
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 225px;" ><i>-Camion:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 220px;" ><i>-Camion:</i></h4>
             
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.2cm; top: 220px;" ><p id="camion"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.6cm; top: 215px;" ><p id="camion"></p></h4>
+
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 255px;" ><i>-X/Y/Z Axes:</i></h4>
+            
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.2cm; top: 250px;" ><p id="axis"></p></h4>
         </font>
 
         <form
-            style="display: none; position:absolute; top:275px; left:10px; z-index: 10;"
-            name="form_fecha" id="form_fecha" autocomplete="off" >
+            style="display: none; position:absolute; top:305px; left:10px; z-index: 10;"
+            name="form_fecha" id="form_fecha" autocomplete="off" target="dummyframe" >
 
             <label for="inicio">Selecciona fecha y hora de inicio del recorrido:</label>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
@@ -88,56 +94,160 @@
                 <option>Camion 2</option>
                 <option>Ambos camiones</option>
             </select>
-            <input type="button" value="Submit" id="btnSubmit" onclick="validate()">
+            <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
         </form>
 
-        <div style="display: none; position:absolute; top:400px; left:5px; width:320px"
+        <div style="display: none; position:absolute; top:430px; left:5px; width:320px"
         id="slidercontainer">
             <input type="range" min="0" max="100" value="0" , class="slider" , id="slider"><br>
-            <!-- <text>Fecha correspondiente: <text id="slidervalue0"></text></text><br> -->
         </div>
     </div>
 
-    <script type="text/javascript">
-        $( document ).ready(function() {
-            $("input[name='inicio']").change(function() {
-            $("input[name='fin']").attr('min',$(this).val());
-            })
-        });
+    <div id="map">
+    </div>
 
-        $( document ).ready(function() {
-            $('#btnSubmit').click(function(){
-                if($("input[name='inicio']").val()==""){
-                alert("Seleccione ventana de tiempo")
-                }else if($("input[name='fin']").val()==""){
-                alert("Seleccione ventana de tiempo")
-                }
-            });
-        });
-    </script>
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
 
     <script>
-
-        async function validate() {
+        var map;
+        var pathCoordinates1 = Array();
+        var pathCoordinates2 = Array();
+        
+        function initMap() {
             map = new google.maps.Map(document.getElementById('map'),{
-                    zoom: 13, center: {lat:10.949185 ,lng: -74.803391}
+                zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
             });
+        }
+
+        function livevalues() {
+            map2 = new google.maps.Map(document.getElementById('map'),{
+                zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+            });
+            marker = new google.maps.Marker({
+                //position: {lat:35.86166 ,lng: 104.195397},
+                map: map2,
+                animation: google.maps.Animation.DROP
+            });
+
+            marker2 = new google.maps.Marker({
+                //position: {lat:35.86166 ,lng: 104.195397},
+                map: map2,
+                animation: google.maps.Animation.DROP
+            });
+
+            marker.addListener("click", toggleBounce);
+            function toggleBounce() {
+                if (marker.getAnimation() !== null) {
+                marker.setAnimation(null);
+                } else {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                }
+            }
+
+            marker2.addListener("click", toggleBounce2);
+            function toggleBounce2() {
+                if (marker2.getAnimation() !== null) {
+                marker2.setAnimation(null);
+                } else {
+                marker2.setAnimation(google.maps.Animation.BOUNCE);
+                }
+            } 
+            
+            update = setInterval(function () {
+                var centerpoint = document.getElementById('menu1').value;
+                console.log(ide)
+                if (ide=='1') {
+                    var numlat1 = parseFloat(latitud1);
+                    var numlon1 = parseFloat(longitud1);
+                    var op1 = {
+                        center:{lat:numlat1, lng:numlon1}
+                    }
+                    pathCoordinates1.push({
+                        lat : numlat1,
+                        lng : numlon1
+                    });
+                    marker.setPosition({lat:numlat1, lng:numlon1});
+
+                    if (centerpoint == 'Camion 1' && myVar1) {
+                        document.getElementById("lat").innerHTML = latitud1;
+                        document.getElementById("long").innerHTML = longitud1;
+                        document.getElementById("timestamp").innerHTML = fecha1;
+                        document.getElementById("camion").innerHTML = ide;
+                        document.getElementById("axis").innerHTML = axis1;
+                        map2.setOptions(op1); 
+                    }
+                    
+                    var lineSymbol = {
+                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    };
+
+                    camino1 = new google.maps.Polyline({
+                        path : pathCoordinates1,
+                        geodesic : true,
+                        strokeColor : '#FF0000',
+                        strokeOpacity : 1,
+                        strokeWeight : 2,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '40px'
+                        }],
+                        JointType: 1,
+                        map : map2
+                    });
+                } 
+                if(ide=='2') {
+                    var numlat2 = parseFloat(latitud2);
+                    var numlon2 = parseFloat(longitud2);
+                    pathCoordinates2.push({
+                        lat : numlat2,
+                        lng : numlon2
+                    });
+                    var op2 = {
+                        center:{lat:numlat2, lng:numlon2}
+                    }
+                    marker2.setPosition({lat:numlat2, lng:numlon2});
+
+                    if (centerpoint == 'Camion 2' && myVar1) {
+                        document.getElementById("lat").innerHTML = latitud2;
+                        document.getElementById("long").innerHTML = longitud2;
+                        document.getElementById("timestamp").innerHTML = fecha2;
+                        document.getElementById("camion").innerHTML = ide;
+                        document.getElementById("axis").innerHTML = axis2;
+                        map2.setOptions(op2); 
+                    }
+                    var lineSymbol = {
+                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    };
+
+                    camino2 = new google.maps.Polyline({
+                        path : pathCoordinates2,
+                        geodesic : true,
+                        strokeColor : '#b71cd2',
+                        strokeOpacity : 1,
+                        strokeWeight : 2,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '40px'
+                        }],
+                        JointType: 1,
+                        map : map2
+                    });
+                }            
+            }, 500);
+        }
+        
+        async function validate() {
+            clearform();
             hideslider();
             if(document.getElementById('fin').value<=document.getElementById('inicio').value | document.getElementById('inicio').value == "" | document.getElementById('fin').value == ""){
                 if (document.getElementById('fin').value<=document.getElementById('inicio').value) {
                     document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
                 }
-                if (document.getElementById('inicio').value == "") {
-                    document.getElementById('inicio').setCustomValidity('Completa este campo');
-                }
-                if (document.getElementById('fin').value == "") {
-                    document.getElementById('fin').setCustomValidity('Completa este campo');
-                }
             }
 	        else{
-                document.getElementById("lat").innerHTML = "";
-                document.getElementById("long").innerHTML = "";
-                document.getElementById("timestamp").innerHTML = "";
+                clearform();
                 
                 document.getElementById('fin').setCustomValidity('');
                 var start = document.getElementById('inicio').value;
@@ -169,8 +279,8 @@
                     const response2 = await fetch('/create', options2);
                     result2 = await response2.json();
 
-                    //console.log(result1);
-                    //console.log(result2);
+                    console.log(result1);
+                    console.log(result2);
 
                     if (Array.isArray(result1) && result1.length) {
                         condicion1=true;
@@ -184,9 +294,7 @@
                     }
                     //both truck have a registered trip
                     if (condicion1 && condicion2){
-                        map = new google.maps.Map(document.getElementById('map'),{
-                        zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
-                        });
+                        initMap();
                         pathCoordinate1 = result1;
                         pathCoordinate2 = result2;
                         var lineSymbol = {
@@ -224,9 +332,7 @@
                     }
                     //only truck 1 have a registered trip
                     if (condicion1==true && condicion2==false) {
-                        map = new google.maps.Map(document.getElementById('map'),{
-                        zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
-                        });
+                        initMap();
                         pathCoordinate1 = result1;
                         var lineSymbol = {
                             path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
@@ -253,9 +359,7 @@
                     }
                     //only truck 1 have a registered trip
                     if (condicion1==false && condicion2==true) {
-                        map = new google.maps.Map(document.getElementById('map'),{
-                        zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
-                        });
+                        initMap();
                         pathCoordinate2 = result2;
                         var lineSymbol = {
                             path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
@@ -281,10 +385,7 @@
                         }
                     }
                     if (condicion1==false && condicion2==false) {
-                        map = new google.maps.Map(document.getElementById('map'),{
-                        zoom: 10, center: {lat:10.949185 ,lng: -74.803391}
-                        });
-                        //console.log("hi");
+                        initMap();
                         var myVar;
                         myVar = setTimeout(alertFunc, 500);
                         function alertFunc() {
@@ -304,7 +405,7 @@
                     };
                     const response = await fetch('/create', options);
                     const result = await response.json();
-                    //console.log(result);
+                    console.log(result);
 
                     if (Array.isArray(result) && result.length){
                         // array exists and is not empty
@@ -360,13 +461,11 @@
                             document.getElementById("lat").innerHTML = result[indexs].lat;
                             document.getElementById("long").innerHTML = result[indexs].lng;
                             document.getElementById("timestamp").innerHTML = result[indexs].timestamp;
+                            document.getElementById("axis").innerHTML = result[indexs].axis;
                         }
                     }
                     else{
-                        map = new google.maps.Map(document.getElementById('map'),{
-                        zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
-                        });
-                        //polyline.setMap(null);
+                        initMap();
                         var myVar;
                         myVar = setTimeout(alertFunc, 500);
                         function alertFunc() {
@@ -377,18 +476,26 @@
             }       
         }
     
-
         function showForm() {
             document.getElementById('form_fecha').style.display = 'block';
         }
         function show2() {
             document.getElementById('menu1').style.display = 'block';
+            myVar1 =true;
+        }
+        function clearform(){
+            document.getElementById("lat").innerHTML = '';
+            document.getElementById("long").innerHTML = '';
+            document.getElementById("timestamp").innerHTML = '';
+            document.getElementById("camion").innerHTML = '';
+            document.getElementById("axis").innerHTML = '';
         }
         function hideForm() {
             document.getElementById('form_fecha').style.display = 'none';
         }
         function hide2() {
             document.getElementById('menu1').style.display = 'none';
+            myVar1 = false;
         }
         function exit1() {
             clearInterval(update);
@@ -401,256 +508,9 @@
         }
     </script>
 
-    <div id="map">
-    </div>
+    
 
-    <script >
-        var pathCoordinates1 = Array();
-        var pathCoordinates2 = Array();
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'),{
-            zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
-            });
-        }
-    </script>
-
-    <script >
-        function livevalues() {
-            map = new google.maps.Map(document.getElementById('map'),{
-                zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
-            });
-
-            var marker = new google.maps.Marker({
-                position: {lat:10.949185 ,lng: -74.803391},
-                map: map,
-                animation: google.maps.Animation.DROP
-            });
-
-            var marker2 = new google.maps.Marker({
-                position: {lat:10.949185 ,lng: -74.803391},
-                map: map,
-                animation: google.maps.Animation.DROP
-            });
-
-            marker.addListener("click", toggleBounce);
-            function toggleBounce() {
-                if (marker.getAnimation() !== null) {
-                marker.setAnimation(null);
-                } else {
-                marker.setAnimation(google.maps.Animation.BOUNCE);
-                }
-            }
-            
-            update = setInterval(function () {
-
-                var centerpoint = document.getElementById('menu1').value;
-                if (id=='1') {
-                    
-                    var numlat1 = parseFloat(latitud1);
-                    var numlon1 = parseFloat(longitud1);
-                    var op1 = {
-                        center:{lat:numlat1, lng:numlon1}
-                    }
-                    pathCoordinates1.push({
-                        lat : numlat1,
-                        lng : numlon1
-                    });
-                    marker.setPosition({lat:numlat1, lng:numlon1});
-
-                    if (centerpoint == 'Camion 1') {
-                        document.getElementById("lat").innerHTML = latitud1;
-                        document.getElementById("long").innerHTML = longitud1;
-                        document.getElementById("timestamp").innerHTML = fecha1;
-                        document.getElementById("camion").innerHTML = id;
-                        map.setOptions(op1); 
-                    }
-                    
-                    var lineSymbol = {
-                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-                    };
-
-                    new google.maps.Polyline({
-                        path : pathCoordinates1,
-                        geodesic : true,
-                        strokeColor : '#FF0000',
-                        strokeOpacity : 1,
-                        strokeWeight : 2,
-                        icons: [{
-                            icon: lineSymbol,
-                            offset: '0',
-                            repeat: '40px'
-                        }],
-                        JointType: 1,
-                        map : map
-                    });
-
-                } else {
-
-                    var numlat2 = parseFloat(latitud2);
-                    var numlon2 = parseFloat(longitud2);
-                    pathCoordinates2.push({
-                        lat : numlat2,
-                        lng : numlon2
-                    });
-                    var op2 = {
-                        center:{lat:numlat2, lng:numlon2}
-                    }
-                    marker2.setPosition({lat:numlat2, lng:numlon2});
-
-                    if (centerpoint == 'Camion 2') {
-                        document.getElementById("lat").innerHTML = latitud2;
-                        document.getElementById("long").innerHTML = longitud2;
-                        document.getElementById("timestamp").innerHTML = fecha2;
-                        document.getElementById("camion").innerHTML = id;
-                        map.setOptions(op2); 
-                    }
-                    var lineSymbol = {
-                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-                    };
-                    new google.maps.Polyline({
-                    path : pathCoordinates2,
-                    geodesic : true,
-                    strokeColor : '#b71cd2',
-                    strokeOpacity : 1,
-                    strokeWeight : 2,
-                    icons: [{
-                        icon: lineSymbol,
-                        offset: '0',
-                        repeat: '40px'
-                    }],
-                    JointType: 1,
-                    map : map
-                });
-                }            
-            }, 500);
-        }
-
-
-        /* var o, Mydata;
-        function timebasedloc() {
-            document.getElementById("lat").innerHTML = "";
-            document.getElementById("long").innerHTML = "";
-            document.getElementById("timestamp").innerHTML = "";
-            const myLatlng = {lat:10.949185 ,lng: -74.803391};
-            map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 16,
-                center: myLatlng,
-            }); 
-            // Create the initial InfoWindow.
-            let infoWindow = new google.maps.InfoWindow({
-                content: "Click en el mapa para buscar",
-                position: myLatlng,
-            });
-            var auch= [];
-            //var map;
-            infoWindow.open(map);
-            // Configure the click listener.
-            map.addListener("click", (mapsMouseEvent) => {
-                // Close the current InfoWindow.
-                document.getElementById("lat").innerHTML = "";
-                document.getElementById("long").innerHTML = "";
-                document.getElementById("timestamp").innerHTML = "";
-                infoWindow.close();
-                if (typeof markers !== "undefined") {
-                    for (var i=0; i < markers.length; i++) {
-                        markers[i].setMap(null);
-                    }
-                    markers = [];
-                }
-                // Create a new InfoWindow.
-                infoWindow = new google.maps.InfoWindow({
-                position: mapsMouseEvent.latLng,
-                });
-                infoWindow.setContent(
-                JSON.stringify(mapsMouseEvent.latLng.toJSON()),
-                );
-                infoWindow.open(map);
-                auch =JSON.stringify(mapsMouseEvent.latLng.toJSON());
-                o = JSON.parse(auch);
-                Mydata= get(o); 
-                if (Array.isArray(result1) && result1.length){
-
-                    if (typeof markers == "undefined") {
-                        //polyline.setMap(null);
-                        markers = [];
-                    }
-
-                    for (let index = 0; index < result1.length; index++) {
-                        const element = result1[index];
-                        var pos = {
-                        lat: element['lat'],
-                        lng: element['lng']
-                        };
-                        
-                        var marker = new google.maps.Marker({
-                            position: pos,
-                            map: map,                   
-                        });
-                        markers.push(marker);    
-                    }
-
-                    var show =data.pop()
-                    document.getElementById("lat").innerHTML = show.lat;
-                    document.getElementById("long").innerHTML = show.lng;
-                    document.getElementById("timestamp").innerHTML = show.timestamp; 
-                    //return data
-                }
-                else{
-                window.alert("No hay recorridos en este lugar.");
-                }
-             
-            });
-           
-        }
-
-        async function get(o){
-            const latLng = {o};
-                const options = {
-                    method: "POST",
-                    body: JSON.stringify(latLng),
-                    headers: {
-                        "Content-Type": "application/json"
-                }
-            };
-            const response = await fetch('/historical', options);
-            data =  await response.json();
-            console.log(data);
-
-            //var polyline;
-
-            if (Array.isArray(data) && data.length){
-
-                if (typeof markers == "undefined") {
-                    //polyline.setMap(null);
-                    markers = [];
-                }
-            
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-                    var pos = {
-                    lat: element['lat'],
-                    lng: element['lng']
-                    };
-                    
-                    var marker = new google.maps.Marker({
-                        position: pos,
-                        map: map,                   
-                    });
-                    markers.push(marker);    
-                }
-
-                var show =data.pop()
-                document.getElementById("lat").innerHTML = show.lat;
-                document.getElementById("long").innerHTML = show.lng;
-                document.getElementById("timestamp").innerHTML = show.timestamp;
-                return data
-            }
-            else{
-                window.alert("No hay recorridos en este lugar.");
-            }             
-        } */
-    </script>
+    
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQBGTBKMtCmEGfBu9YqHhXNpHIDormd9o&callback=initMap"></script>
 </body>
