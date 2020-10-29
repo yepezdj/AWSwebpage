@@ -109,9 +109,9 @@
     <script type="text/javascript">
         $( document ).ready(function() {
             $("input[name='inicio']").change(function() {
-                
+                var idas=$("input[name='fin']").attr('min')
             $("input[name='fin']").attr('min',$(this).val());
-            console.log($(this).val());
+            console.log(idas);
             })
         });
 
