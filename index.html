@@ -103,7 +103,7 @@
 <script type="text/javascript">
 $( document ).ready(function() {
     $("input[name='inicio']").change(function() {
-  $("input[name='fin']").val($(this).val());
+  $("input[name='fin']").attr('min',$(this).val());
 })
         });
 </script>
