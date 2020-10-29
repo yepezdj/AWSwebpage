@@ -84,7 +84,7 @@
             name="form_fecha" id="form_fecha" autocomplete="off" target="dummyframe" >
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <label for="inicio">Selecciona fecha y hora de inicio del recorrido:</label>
-            <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T14:30" max="2020-12-31T00:00" required><br>
+            <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
             <label for="fin">Escoge una opcion.</label>
@@ -106,12 +106,10 @@
     </div>
 
     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-    <script type="text/javascript">
+<!-- <script type="text/javascript">
         $( document ).ready(function() {
             $("input[name='inicio']").change(function() {
-                var idas=$("input[name='fin']").attr('min')
             $("input[name='fin']").attr('min',$(this).val());
-            console.log(idas);
             })
         });
 
@@ -124,7 +122,7 @@
                 }
             });
         });
-    </script>
+    </script> -->
     <script>
         var map;
         var pathCoordinates1 = Array();
