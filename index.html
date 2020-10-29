@@ -177,7 +177,7 @@
                 if (ide=='1') {
                     var numlat1 = parseFloat(latitud1);
                     var numlon1 = parseFloat(longitud1);
-                    var op1 = {
+                    op1 = {
                         center:{lat:numlat1, lng:numlon1}
                     }
                     pathCoordinates1.push({
@@ -213,6 +213,9 @@
                         document.getElementById("axis").innerHTML = axis1;
                         map2.setOptions(op1); 
                     }
+                    else{
+                        map2.setOptions(op2);
+                    }
                 } 
                 if(ide=='2') {
                     var numlat2 = parseFloat(latitud2);
@@ -221,7 +224,7 @@
                         lat : numlat2,
                         lng : numlon2
                     });
-                    var op2 = {
+                    op2 = {
                         center:{lat:numlat2, lng:numlon2}
                     }
                     marker2.setPosition({lat:numlat2, lng:numlon2});
@@ -252,6 +255,9 @@
                         document.getElementById("camion").innerHTML = ide;
                         document.getElementById("axis").innerHTML = axis2;
                         map2.setOptions(op2); 
+                    }
+                    else{
+                        map2.setOptions(op1);
                     }
                 }            
             }, 500);
