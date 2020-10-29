@@ -378,6 +378,11 @@
                             JointType: 1,
                             map : map
                         });
+                        var ncenter = pathCoordinate1.pop();
+                        var options1 = {
+                            center: ncenter
+                        }
+                        map.setOptions(options2);
                         var myVar;
                         myVar = setTimeout(alertFunc, 500);
                         function alertFunc() {
@@ -405,6 +410,12 @@
                             JointType: 1,
                             map : map
                         });
+                        var ncenter = pathCoordinate2.pop();
+                        var options2 = {
+                            center: ncenter
+                        }
+                        map.setOptions(options2);
+                        
                         var myVar;
                         myVar = setTimeout(alertFunc, 500);
                         function alertFunc() {
