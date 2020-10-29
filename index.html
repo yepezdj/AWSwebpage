@@ -111,8 +111,7 @@
             $("input[name='inicio']").change(function() {
                 
             $("input[name='fin']").attr('min',$(this).val());
-            var idas=$("input[name='fin']").val();
-            console.log(idas);
+            console.log($(this).val());
             })
         });
 
