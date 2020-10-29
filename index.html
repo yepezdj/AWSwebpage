@@ -82,7 +82,7 @@
         <form
             style="display: none; position:absolute; top:305px; left:10px; z-index: 10;"
             name="form_fecha" id="form_fecha" autocomplete="off" target="dummyframe" >
-
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <label for="inicio">Selecciona fecha y hora de inicio del recorrido:</label>
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
@@ -106,7 +106,23 @@
     </div>
 
     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $("input[name='inicio']").change(function() {
+            $("input[name='fin']").attr('min',$(this).val());
+            })
+        });
 
+        $( document ).ready(function() {
+            $('#btnSubmit').click(function(){
+                if($("input[name='inicio']").val()==""){
+                alert("Seleccione ventana de tiempo")
+                }else if($("input[name='fin']").val()==""){
+                alert("Seleccione ventana de tiempo")
+                }
+            });
+        });
+    </script>
     <script>
         var map;
         var pathCoordinates1 = Array();
