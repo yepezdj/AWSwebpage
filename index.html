@@ -75,7 +75,7 @@
             
             <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.6cm; top: 215px;" ><p id="camion"></p></h4>
 
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 255px;" ><i>-X/Y/Z Axes:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 255px;" ><i>-X/Y/Z Axis:</i></h4>
             
             <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.2cm; top: 250px;" ><p id="axis"></p></h4>
         </font>
@@ -85,6 +85,7 @@
             name="form_fecha" id="form_fecha" autocomplete="off" target="dummyframe" >
 
             <label for="inicio">Selecciona fecha y hora de inicio del recorrido:</label>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
@@ -107,6 +108,23 @@
     </div>
 
     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $("input[name='inicio']").change(function() {
+            $("input[name='fin']").attr('min',$(this).val());
+            })
+        });
+        /* $( document ).ready(function() {
+            $('#btnSubmit').click(function(){
+                if($("input[name='inicio']").val()==""){
+                alert("Seleccione ventana de tiempo")
+                }else if($("input[name='fin']").val()==""){
+                alert("Seleccione ventana de tiempo")
+                }
+            });
+        }); */
+    </script>
 
     <script>
         var map;
@@ -167,15 +185,6 @@
                         lng : numlon1
                     });
                     marker.setPosition({lat:numlat1, lng:numlon1});
-
-                    if (centerpoint == 'Camion 1' && myVar1) {
-                        document.getElementById("lat").innerHTML = latitud1;
-                        document.getElementById("long").innerHTML = longitud1;
-                        document.getElementById("timestamp").innerHTML = fecha1;
-                        document.getElementById("camion").innerHTML = ide;
-                        document.getElementById("axis").innerHTML = axis1;
-                        map2.setOptions(op1); 
-                    }
                     
                     var lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
@@ -195,6 +204,15 @@
                         JointType: 1,
                         map : map2
                     });
+
+                    if (centerpoint == 'Camion 1' && myVar1) {
+                        document.getElementById("lat").innerHTML = latitud1;
+                        document.getElementById("long").innerHTML = longitud1;
+                        document.getElementById("timestamp").innerHTML = fecha1;
+                        document.getElementById("camion").innerHTML = ide;
+                        document.getElementById("axis").innerHTML = axis1;
+                        map2.setOptions(op1); 
+                    }
                 } 
                 if(ide=='2') {
                     var numlat2 = parseFloat(latitud2);
@@ -208,14 +226,6 @@
                     }
                     marker2.setPosition({lat:numlat2, lng:numlon2});
 
-                    if (centerpoint == 'Camion 2' && myVar1) {
-                        document.getElementById("lat").innerHTML = latitud2;
-                        document.getElementById("long").innerHTML = longitud2;
-                        document.getElementById("timestamp").innerHTML = fecha2;
-                        document.getElementById("camion").innerHTML = ide;
-                        document.getElementById("axis").innerHTML = axis2;
-                        map2.setOptions(op2); 
-                    }
                     var lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                     };
@@ -234,6 +244,15 @@
                         JointType: 1,
                         map : map2
                     });
+
+                    if (centerpoint == 'Camion 2' && myVar1) {
+                        document.getElementById("lat").innerHTML = latitud2;
+                        document.getElementById("long").innerHTML = longitud2;
+                        document.getElementById("timestamp").innerHTML = fecha2;
+                        document.getElementById("camion").innerHTML = ide;
+                        document.getElementById("axis").innerHTML = axis2;
+                        map2.setOptions(op2); 
+                    }
                 }            
             }, 500);
         }
