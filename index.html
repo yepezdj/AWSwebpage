@@ -6,7 +6,8 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        var socket = io.connect('http://3.215.220.179:50000');
+        //var socket = io.connect('http://localhost:50000');
+        var socket = io.connect('http://54.227.210.76:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             ide= coord[3];
@@ -74,7 +75,7 @@
             
             <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.6cm; top: 215px;" ><p id="camion"></p></h4>
 
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 255px;" ><i>-X/Y/Z Axes:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 255px;" ><i>-X/Y/Z Axis:</i></h4>
             
             <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.2cm; top: 250px;" ><p id="axis"></p></h4>
         </font>
@@ -82,8 +83,9 @@
         <form
             style="display: none; position:absolute; top:305px; left:10px; z-index: 10;"
             name="form_fecha" id="form_fecha" autocomplete="off" target="dummyframe" >
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
             <label for="inicio">Selecciona fecha y hora de inicio del recorrido:</label>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
@@ -106,14 +108,14 @@
     </div>
 
     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-<!-- <script type="text/javascript">
+
+    <script type="text/javascript">
         $( document ).ready(function() {
             $("input[name='inicio']").change(function() {
             $("input[name='fin']").attr('min',$(this).val());
             })
         });
-
-        $( document ).ready(function() {
+        /* $( document ).ready(function() {
             $('#btnSubmit').click(function(){
                 if($("input[name='inicio']").val()==""){
                 alert("Seleccione ventana de tiempo")
@@ -121,8 +123,9 @@
                 alert("Seleccione ventana de tiempo")
                 }
             });
-        });
-    </script> -->
+        }); */
+    </script>
+
     <script>
         var map;
         var pathCoordinates1 = Array();
@@ -135,6 +138,8 @@
         }
 
         function livevalues() {
+            op1 = new Object();
+            op2 = new Object();
             map2 = new google.maps.Map(document.getElementById('map'),{
                 zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
             });
@@ -174,7 +179,7 @@
                 if (ide=='1') {
                     var numlat1 = parseFloat(latitud1);
                     var numlon1 = parseFloat(longitud1);
-                    var op1 = {
+                    op1 = {
                         center:{lat:numlat1, lng:numlon1}
                     }
                     pathCoordinates1.push({
@@ -182,15 +187,6 @@
                         lng : numlon1
                     });
                     marker.setPosition({lat:numlat1, lng:numlon1});
-
-                    if (centerpoint == 'Camion 1' && myVar1) {
-                        document.getElementById("lat").innerHTML = latitud1;
-                        document.getElementById("long").innerHTML = longitud1;
-                        document.getElementById("timestamp").innerHTML = fecha1;
-                        document.getElementById("camion").innerHTML = ide;
-                        document.getElementById("axis").innerHTML = axis1;
-                        map2.setOptions(op1); 
-                    }
                     
                     var lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
@@ -210,6 +206,18 @@
                         JointType: 1,
                         map : map2
                     });
+
+                    if (centerpoint == 'Camion 1' && myVar1) {
+                        document.getElementById("lat").innerHTML = latitud1;
+                        document.getElementById("long").innerHTML = longitud1;
+                        document.getElementById("timestamp").innerHTML = fecha1;
+                        document.getElementById("camion").innerHTML = ide;
+                        document.getElementById("axis").innerHTML = axis1;
+                        map2.setOptions(op1); 
+                    }
+                    else{
+                        map2.setOptions(op2);
+                    }
                 } 
                 if(ide=='2') {
                     var numlat2 = parseFloat(latitud2);
@@ -218,19 +226,11 @@
                         lat : numlat2,
                         lng : numlon2
                     });
-                    var op2 = {
+                    op2 = {
                         center:{lat:numlat2, lng:numlon2}
                     }
                     marker2.setPosition({lat:numlat2, lng:numlon2});
 
-                    if (centerpoint == 'Camion 2' && myVar1) {
-                        document.getElementById("lat").innerHTML = latitud2;
-                        document.getElementById("long").innerHTML = longitud2;
-                        document.getElementById("timestamp").innerHTML = fecha2;
-                        document.getElementById("camion").innerHTML = ide;
-                        document.getElementById("axis").innerHTML = axis2;
-                        map2.setOptions(op2); 
-                    }
                     var lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                     };
@@ -249,6 +249,18 @@
                         JointType: 1,
                         map : map2
                     });
+
+                    if (centerpoint == 'Camion 2' && myVar1) {
+                        document.getElementById("lat").innerHTML = latitud2;
+                        document.getElementById("long").innerHTML = longitud2;
+                        document.getElementById("timestamp").innerHTML = fecha2;
+                        document.getElementById("camion").innerHTML = ide;
+                        document.getElementById("axis").innerHTML = axis2;
+                        map2.setOptions(op2); 
+                    }
+                    else{
+                        map2.setOptions(op1);
+                    }
                 }            
             }, 500);
         }
@@ -344,6 +356,11 @@
                         });
                         polyline1.setMap(map);
                         polyline2.setMap(map);
+                        var ncenter = pathCoordinate1.pop();
+                        var options = {
+                            center: ncenter
+                        }
+                        map.setOptions(options);
                     }
                     //only truck 1 have a registered trip
                     if (condicion1==true && condicion2==false) {
@@ -366,6 +383,11 @@
                             JointType: 1,
                             map : map
                         });
+                        var ncenter = pathCoordinate1.pop();
+                        var opti = {
+                            center: ncenter
+                        }
+                        map.setOptions(opti);
                         var myVar;
                         myVar = setTimeout(alertFunc, 500);
                         function alertFunc() {
@@ -393,6 +415,12 @@
                             JointType: 1,
                             map : map
                         });
+                        var ncenter = pathCoordinate2.pop();
+                        var opti = {
+                            center: ncenter
+                        }
+                        map.setOptions(opti);
+                        
                         var myVar;
                         myVar = setTimeout(alertFunc, 500);
                         function alertFunc() {
@@ -423,6 +451,7 @@
                     console.log(result);
 
                     if (Array.isArray(result) && result.length){
+                        initMap();
                         // array exists and is not empty
                         pathCoordinate = [];
                         //filter data of lat and lng
