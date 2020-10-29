@@ -101,7 +101,7 @@
     <script type="text/javascript">
         $( document ).ready(function() {
         $('#fin').change(function () {
-            $(this).find("#startDate").attr($('#inicio').val());
+            $('#fin').attr('min' , $('#inicio').val());
             });
         });
     </script>
