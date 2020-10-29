@@ -356,6 +356,11 @@
                         });
                         polyline1.setMap(map);
                         polyline2.setMap(map);
+                        var ncenter = pathCoordinate1.pop();
+                        var options = {
+                            center: ncenter
+                        }
+                        map.setOptions(options);
                     }
                     //only truck 1 have a registered trip
                     if (condicion1==true && condicion2==false) {
@@ -379,10 +384,10 @@
                             map : map
                         });
                         var ncenter = pathCoordinate1.pop();
-                        var options1 = {
+                        var opti = {
                             center: ncenter
                         }
-                        map.setOptions(options2);
+                        map.setOptions(opti);
                         var myVar;
                         myVar = setTimeout(alertFunc, 500);
                         function alertFunc() {
