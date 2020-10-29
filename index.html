@@ -107,7 +107,10 @@
 
         $( document ).ready(function() {
             $('#btnSubmit').click(function(){
-                if($('input[required]').val()==""){
+                if($("input[name='inicio']").val()==""){
+                alert("Seleccione ventana de tiempo")
+                }
+                if($("input[name='fin']").val()==""){
                 alert("Seleccione ventana de tiempo")
                 }
             });
