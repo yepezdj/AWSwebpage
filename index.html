@@ -10,11 +10,19 @@
         var socket = io.connect('http://54.227.210.76:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
-            latitud = coord[0];
-            longitud = coord[1];
-            fecha = coord[2];
-            idc= coord[3];
-            console.log(msg);
+            ide= coord[3];
+            if (ide=='1') {
+                latitud1 = coord[0];
+                longitud1 = coord[1];
+                fecha1 = coord[2];
+                axis1 = coord[4];
+            } 
+            if (ide=='2'){
+                latitud2 = coord[0];
+                longitud2 = coord[1];
+                fecha2 = coord[2];
+                axis2 = coord[4];
+            }
         });
 
     </script>
@@ -30,111 +38,148 @@
             }
    </style>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    .slidecontainer {
+    width: 100%;
+    }
+
+    .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;  
+    background: #6b6b6b;
+    outline: none;
+    opacity: 1;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    }
+
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; 
+    background: #4CAF50;
+    cursor: pointer;
+    } 
+
+    /* .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    } */
+    </style>
 </head>
 
 <body>
-    <div style="position:absolute; top:60px; left:0px; z-index:5; width:370px; height:400px; background-color:#CDCDCD; opacity:0.9">
+    <div style="position:absolute; top:60px; left:0px; z-index:5; width:350px; height:500px; background-color:#CDCDCD; opacity:0.9">
 
         <form
             style="position:absolute; top:65px; left:10px; z-index: 10;"
-            name="formulario_fecha" id="formulario_fecha" method="post">
+            name="formulario_fecha" id="formulario_fecha">
 
-            <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(), historiavalues(), exit1()">
-            <input type="button" value="Ubicacion en vivo" id="live" onclick="hideForm(), livevalues()">
-            <input type="button" value="Tiempo de ubicaciones historicas" id="live" onclick="hideForm(), timebasedloc(), exit1()">
+            <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(),clearform(),initMap(), hideslider(), hide2(), exit1()">
+            <input type="button" value="Ubicacion en vivo" id="live" onclick="show2(),clearform(),hideslider(), hideForm(), livevalues()">
+
+            <select style="display: none" name="menu1" id="menu1">
+                <option>Camion 1</option>
+                <option>Camion 2</option>
+            </select>
         </form>
 
         <font color=#000000>
             <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: -10px;" ><i>LOCATION</i></h1>
 
-            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 105px;" ><i>-Latitud:</i></h2>
+            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 105px;" ><i>-Latitud:</i></h2>
 
-            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3cm; top: 102px;" ><p id="lat"></p></h2>
+            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.3cm; top: 97px;" ><p id="lat"></p></h2>
 
-            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 145px;" ><i>-Longitud:</i></h3>
+            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 145px;" ><i>-Longitud:</i></h3>
 
-            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.5cm; top: 142px;" ><p id="long"></p></h3>
+            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.6cm; top: 137px;" ><p id="long"></p></h3>
 
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 185px;" ><i>-Timestamp:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 185px;" ><i>-Timestamp:</i></h4>
             
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:4cm; top: 182px;" ><p id="timestamp"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.3cm; top: 177px;" ><p id="timestamp"></p></h4>
 
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: 225px;" ><i>-Camion:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 220px;" ><i>-Camion:</i></h4>
             
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2cm; top: 220px;" ><p id="camion"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.6cm; top: 215px;" ><p id="camion"></p></h4>
+
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 255px;" ><i>-X/Y/Z Axis:</i></h4>
+            
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.2cm; top: 250px;" ><p id="axis"></p></h4>
         </font>
 
         <form
-            style="display: none; position:absolute; top:275px; left:10px; z-index: 10;"
-            name="form_fecha" id="form_fecha" autocomplete="off"
-            method="POST" action="/create">
+            style="display: none; position:absolute; top:305px; left:10px; z-index: 10;"
+            name="form_fecha" id="form_fecha" autocomplete="off" target="dummyframe" >
 
             <label for="inicio">Selecciona fecha y hora de inicio del recorrido:</label>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <input type="datetime-local" name="inicio" id="inicio" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br>
             <label for="fin">Selecciona la fecha y hora del final del recorrido:</label>
             <input type="datetime-local" name="fin" id="fin" min="2020-08-01T00:00" max="2020-12-31T00:00" required><br><br>
-            <label><input type="checkbox" name="camion1" id="camion1" required>Camion1</label>
-            <label><input type="checkbox" name="camion2" id="camion2">Camion2</label>
-            <label><input type="checkbox" name="camion3" id="camion3">Ambos</label>
-            <input type="submit" value="Submit" id="btnSubmit" onclick="validate(), ver()">
+            <label for="fin">Escoge una opcion.</label>
+            <select name="menu" id="menu">
+                <option>Camion 1</option>
+                <option>Camion 2</option>
+                <option>Ambos camiones</option>
+            </select>
+            <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
         </form>
+
+        <div id="slidercontainer"
+            style="display: none; position: absolute; top:430px; left:5px; width:320px; height:20px; left:10px;">
+            <label for="fin">Recorrido:</label>
+            <input type="range" min="0" max="100" value="0" , class="slider" , id="slider"><br>
+        </div>
     </div>
-
-    <script>
-        function ver() {
-	        if(document.getElementById('camion1').value=="on"){
-            document.getElementById('camion2').value="off";
-            document.getElementById('camion3').value=="off";
-            }
-            if(document.getElementById('camion2').value=="on"){
-            document.getElementById('camion2').value="off";
-            document.getElementById('camion3').value="off";
-            }
-            if(document.getElementById('camion3').value=="on"){
-            document.getElementById('camion2').value="off";
-            document.getElementById('camion3').value="off";
-            } 
-        }
-        function validate() {
-	        if(document.getElementById('fin').value<=document.getElementById('inicio').value)
-		    document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
-	        else
-		    document.getElementById('fin').setCustomValidity('');
-        }
-
-        function showForm() {
-            document.getElementById('form_fecha').style.display = 'block';
-        }
-        function hideForm() {
-            document.getElementById('form_fecha').style.display = 'none';
-        }
-        function exit1() {
-            clearInterval(update);
-        }
-    </script>
 
     <div id="map">
     </div>
 
-    <script >
-        var pathCoordinates = Array();
-        var pathCoordinates2 = Array();
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'),{
-            zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
-            });
-        }
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $("input[name='inicio']").change(function() {
+            $("input[name='fin']").attr('min',$(this).val());
+            })
+        });
     </script>
 
-    <script >
+    <script>
+        var map;
+        var pathCoordinates1 = Array();
+        var pathCoordinates2 = Array();
+        
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'),{
+                zoom: 12, center: {lat:10.949185 ,lng: -74.803391},
+                streetViewControl: false
+            });
+        }
+
         function livevalues() {
-            var map = new google.maps.Map(document.getElementById('map'),{
-                zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+            op1 = new Object();
+            op2 = new Object();
+            map2 = new google.maps.Map(document.getElementById('map'),{
+                zoom: 12, center: {lat:10.949185 ,lng: -74.803391},
+                streetViewControl: false
+            });
+            marker = new google.maps.Marker({
+                map: map2,
+                animation: google.maps.Animation.DROP
             });
 
-            var marker = new google.maps.Marker({
-                position: {lat:10.949185 ,lng: -74.803391},
-                map: map,
+            marker2 = new google.maps.Marker({
+                map: map2,
                 animation: google.maps.Animation.DROP
             });
 
@@ -146,194 +191,467 @@
                 marker.setAnimation(google.maps.Animation.BOUNCE);
                 }
             }
+
+            marker2.addListener("click", toggleBounce2);
+            function toggleBounce2() {
+                if (marker2.getAnimation() !== null) {
+                marker2.setAnimation(null);
+                } else {
+                marker2.setAnimation(google.maps.Animation.BOUNCE);
+                }
+            } 
             
             update = setInterval(function () {
-                document.getElementById("lat").innerHTML = latitud;
-                document.getElementById("long").innerHTML = longitud;
-                document.getElementById("timestamp").innerHTML = fecha;
-                /* document.getElementById("camion").innerHTML = idc; */
-
-                var numlat = parseFloat(latitud);
-                var numlon = parseFloat(longitud);
-                var camion = parseInt(idc);
-
-                var options = {
-                    center:{lat:numlat, lng:numlon}
-                }
-
-                pathCoordinates.push({
-                    lat : numlat,
-                    lng : numlon
-                });
-
-                map.setOptions(options);
-                marker.setPosition({lat:numlat, lng:numlon});
-
-                var lineSymbol = {
-                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-                };
-                new google.maps.Polyline({
-                    path : pathCoordinates,
-                    geodesic : true,
-                    strokeColor : '#FF0000',
-                    strokeOpacity : 1,
-                    strokeWeight : 2,
-                    icons: [{
-                        icon: lineSymbol,
-                        offset: '0',
-                        repeat: '40px'
-                    }],
-                    JointType: 1,
-                    map : map
-                });      
-            }, 500);
-        }
-
-        function historiavalues() {
-
-            document.getElementById("lat").innerHTML = "";
-            document.getElementById("long").innerHTML = "";
-            document.getElementById("timestamp").innerHTML = "";
-            var map = new google.maps.Map(document.getElementById('map'),{
-                zoom: 13, center: {lat:10.949185 ,lng: -74.803391}
-            });
-
-            //polyline with historics values
-            socket.on('historia', function (result) {
-            console.log(result);//---------------------
-            
-                if (Array.isArray(result) && result.length){
-                    // array exists and is not empty
-                    map = new google.maps.Map(document.getElementById('map'),{
-                    zoom: 15, center: {lat:10.949185 ,lng: -74.803391}
+                var centerpoint = document.getElementById('menu1').value;
+                console.log(ide)
+                if (ide=='1') {
+                    var numlat1 = parseFloat(latitud1);
+                    var numlon1 = parseFloat(longitud1);
+                    op1 = {
+                        center:{lat:numlat1, lng:numlon1}
+                    }
+                    pathCoordinates1.push({
+                        lat : numlat1,
+                        lng : numlon1
                     });
-
-                    pathCoordinate = result;
+                    marker.setPosition({lat:numlat1, lng:numlon1});
+                    
                     var lineSymbol = {
-                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
                     };
-                        polyline = new google.maps.Polyline({
-                        path : pathCoordinate,
+
+                    camino1 = new google.maps.Polyline({
+                        path : pathCoordinates1,
                         geodesic : true,
-                        strokeColor : '#003bd5',
+                        strokeColor : '#FF0000',
                         strokeOpacity : 1,
                         strokeWeight : 2,
                         icons: [{
                             icon: lineSymbol,
                             offset: '0',
-                            repeat: '70px'
+                            repeat: '40px'
                         }],
                         JointType: 1,
-                        map : map
+                        map : map2
                     });
-                    //center in the last polyline point
-                    ncenter = pathCoordinate.pop();
-                    var options = {
-                        center: ncenter
+
+                    if (centerpoint == 'Camion 1' && myVar1) {
+                        document.getElementById("lat").innerHTML = latitud1;
+                        document.getElementById("long").innerHTML = longitud1;
+                        document.getElementById("timestamp").innerHTML = fecha1;
+                        document.getElementById("camion").innerHTML = ide;
+                        document.getElementById("axis").innerHTML = axis1;
+                        map2.setOptions(op1); 
                     }
-                    map.setOptions(options);
+                    else{
+                        map2.setOptions(op2);
+                    }
+                } 
+                if(ide=='2') {
+                    var numlat2 = parseFloat(latitud2);
+                    var numlon2 = parseFloat(longitud2);
+                    pathCoordinates2.push({
+                        lat : numlat2,
+                        lng : numlon2
+                    });
+                    op2 = {
+                        center:{lat:numlat2, lng:numlon2}
+                    }
+                    marker2.setPosition({lat:numlat2, lng:numlon2});
+
+                    var lineSymbol = {
+                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    };
+
+                    camino2 = new google.maps.Polyline({
+                        path : pathCoordinates2,
+                        geodesic : true,
+                        strokeColor : '#b71cd2',
+                        strokeOpacity : 1,
+                        strokeWeight : 2,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '40px'
+                        }],
+                        JointType: 1,
+                        map : map2
+                    });
+
+                    if (centerpoint == 'Camion 2' && myVar1) {
+                        document.getElementById("lat").innerHTML = latitud2;
+                        document.getElementById("long").innerHTML = longitud2;
+                        document.getElementById("timestamp").innerHTML = fecha2;
+                        document.getElementById("camion").innerHTML = ide;
+                        document.getElementById("axis").innerHTML = axis2;
+                        map2.setOptions(op2); 
+                    }
+                    else{
+                        map2.setOptions(op1);
+                    }
+                }            
+            }, 500);
+        }
+        
+        async function validate() {
+            clearform();
+            hideslider();
+            if(document.getElementById('fin').value<=document.getElementById('inicio').value | document.getElementById('inicio').value == "" | document.getElementById('fin').value == ""){
+                if (document.getElementById('fin').value<=document.getElementById('inicio').value) {
+                    document.getElementById('fin').setCustomValidity('Esta fecha debe ser mayor a la fecha inicial');
+                }
+            }
+	        else{
+                clearform();
+                
+                document.getElementById('fin').setCustomValidity('');
+                var start = document.getElementById('inicio').value;
+                var end = document.getElementById('fin').value;
+                var camion = document.getElementById('menu').value;
+                
+                
+                //cual de las opcciones se selecionó
+                if(document.getElementById('menu').value=="Ambos camiones"){
+                    const daterange1 = {comienzo:start , final:end, camion:"Camion 1"};
+                    const options1 = {
+                    method: "POST",
+                        body: JSON.stringify(daterange1),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    };
+                    const response1 = await fetch('/create', options1);
+                    result1 = await response1.json();
+                    
+                    const daterange2 = {comienzo:start , final:end, camion:"Camion 2"};
+                    const options2 = {
+                    method: "POST",
+                        body: JSON.stringify(daterange2),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    };
+                    const response2 = await fetch('/create', options2);
+                    result2 = await response2.json();
+
+                    console.log(result1);
+                    console.log(result2);
+
+                    if (Array.isArray(result1) && result1.length) {
+                        condicion1=true;
+                    } else {
+                        condicion1=false;
+                    }
+                    if (Array.isArray(result2) && result2.length) {
+                        condicion2=true;
+                    } else {
+                        condicion2=false;
+                    }
+                    //both truck have a registered trip
+                    if (condicion1 && condicion2){
+                        initMap();
+                        pathCoordinate1 = result1;
+                        pathCoordinate2 = result2;
+                        var lineSymbol = {
+                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                        };
+                        polyline1 = new google.maps.Polyline({
+                            path : pathCoordinate1,
+                            geodesic : true,
+                            strokeColor : '#2cc11e',
+                            strokeOpacity : 1,
+                            strokeWeight : 2,
+                            icons: [{
+                                icon: lineSymbol,
+                                offset: '0',
+                                repeat: '70px'
+                            }],
+                            JointType: 1,
+                            map : map
+                        });
+                        polyline2 = new google.maps.Polyline({
+                            path : pathCoordinate2,
+                            geodesic : true,
+                            strokeColor : '#003bd5',
+                            strokeOpacity : 1,
+                            strokeWeight : 2,
+                            icons: [{
+                                icon: lineSymbol,
+                                offset: '0',
+                                repeat: '70px'
+                            }],
+                            JointType: 1,
+                        });
+                        polyline1.setMap(map);
+                        polyline2.setMap(map);
+                        var ncenter = pathCoordinate1.pop();
+                        var options = {
+                            center: ncenter
+                        }
+                        map.setOptions(options);
+
+                        const marker1 = new google.maps.Marker({
+                            position: ncenter,
+                            map: map
+                        });
+                    
+                        showslider();
+                        Slider = document.getElementById("slider");
+                        Slider.min = `${0}`;
+                        Slider.max = `${result1.length + result2.length - 2}`;
+                        var max1 = result1.length-1;
+                        
+                        //console.log(result.length)
+                        Slider.oninput = function() {
+                            var indexs = parseInt(this.value);
+                            if (indexs<=max1) {
+                                marker1.setPosition({lat:result1[indexs].lat, lng:result1[indexs].lng});
+                                document.getElementById("lat").innerHTML = result1[indexs].lat;
+                                document.getElementById("long").innerHTML = result1[indexs].lng;
+                                document.getElementById("timestamp").innerHTML = result1[indexs].timestamp;
+                                document.getElementById("axis").innerHTML = result1[indexs].axis;
+                                document.getElementById("camion").innerHTML = "1";
+
+                            }
+                            else{
+                                indexs = indexs - max1;
+                                marker1.setPosition({lat:result2[indexs].lat, lng:result2[indexs].lng});
+                                document.getElementById("lat").innerHTML = result2[indexs].lat;
+                                document.getElementById("long").innerHTML = result2[indexs].lng;
+                                document.getElementById("timestamp").innerHTML = result2[indexs].timestamp;
+                                document.getElementById("axis").innerHTML = result2[indexs].axis;
+                                document.getElementById("camion").innerHTML = "2";
+                            }
+                            
+                        }
+                    }
+                    //only truck 1 have a registered trip
+                    if (condicion1==true && condicion2==false) {
+                        initMap();
+                        pathCoordinate1 = result1;
+                        var lineSymbol = {
+                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                        };
+                        polyline1 = new google.maps.Polyline({
+                            path : pathCoordinate1,
+                            geodesic : true,
+                            strokeColor : '#2cc11e',
+                            strokeOpacity : 1,
+                            strokeWeight : 2,
+                            icons: [{
+                                icon: lineSymbol,
+                                offset: '0',
+                                repeat: '70px'
+                            }],
+                            JointType: 1,
+                            map : map
+                        });
+                        var ncenter = pathCoordinate1.pop();
+                        var opti = {
+                            center: ncenter
+                        }
+                        map.setOptions(opti);
+
+                        const marker = new google.maps.Marker({
+                            position: ncenter,
+                            map: map
+                        });
+
+                        var myVar;
+                        myVar = setTimeout(alertFunc, 500);
+                        function alertFunc() {
+                            alert("Solo el camion 1 tiene un recorrido en entre fechas.");
+                        }
+
+                        showslider();
+                        Slider = document.getElementById("slider");
+                        Slider.min = `${0}`;
+                        Slider.max = `${result1.length - 1}`;
+                        
+                        //console.log(result.length)
+                        Slider.oninput = function() {
+                            var indexs = parseInt(this.value);
+                            marker.setPosition({lat:result1[indexs].lat, lng:result1[indexs].lng});
+                            document.getElementById("lat").innerHTML = result1[indexs].lat;
+                            document.getElementById("long").innerHTML = result1[indexs].lng;
+                            document.getElementById("timestamp").innerHTML = result1[indexs].timestamp;
+                            document.getElementById("axis").innerHTML = result1[indexs].axis;
+                        }
+                    }
+                    //only truck 2 have a registered trip
+                    if (condicion1==false && condicion2==true) {
+                        initMap();
+                        pathCoordinate2 = result2;
+                        var lineSymbol = {
+                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                        };
+                        polyline2 = new google.maps.Polyline({
+                            path : pathCoordinate2,
+                            geodesic : true,
+                            strokeColor : '#2cc11e',
+                            strokeOpacity : 1,
+                            strokeWeight : 2,
+                            icons: [{
+                                icon: lineSymbol,
+                                offset: '0',
+                                repeat: '70px'
+                            }],
+                            JointType: 1,
+                            map : map
+                        });
+                        var ncenter = pathCoordinate2.pop();
+                        var opti = {
+                            center: ncenter
+                        }
+                        map.setOptions(opti);
+                        const marker = new google.maps.Marker({
+                            position: ncenter,
+                            map: map
+                        });
+                        
+                        var myVar;
+                        myVar = setTimeout(alertFunc, 500);
+                        function alertFunc() {
+                            alert("Solo el camion 2 tiene un recorrido en entre fechas.");
+                        }
+
+                        showslider();
+                        Slider = document.getElementById("slider");
+                        Slider.min = `${0}`;
+                        Slider.max = `${result2.length - 1}`;
+                        
+                        //console.log(result.length)
+                        Slider.oninput = function() {
+                            var indexs = parseInt(this.value);
+                            marker.setPosition({lat:result2[indexs].lat, lng:result2[indexs].lng});
+                            document.getElementById("lat").innerHTML = result2[indexs].lat;
+                            document.getElementById("long").innerHTML = result2[indexs].lng;
+                            document.getElementById("timestamp").innerHTML = result2[indexs].timestamp;
+                            document.getElementById("axis").innerHTML = result2[indexs].axis;
+                        }
+                    }
+                    if (condicion1==false && condicion2==false) {
+                        initMap();
+                        var myVar;
+                        myVar = setTimeout(alertFunc, 500);
+                        function alertFunc() {
+                            alert("No hay recorrido entre estas fechas de ningun camion.");
+                        }
+                    } 
                 }
                 else{
-                    var map = new google.maps.Map(document.getElementById('map'),{
-                    zoom: 13, center: {lat:10.949185 ,lng: -74.803391}
-                    });
-                    window.alert("No hay recorrido entre esas fechas.");
-                }
-            });
-            window.stop();
-        }
-        var o, Mydata;
-        function timebasedloc() {
-            document.getElementById("lat").innerHTML = "";
-            document.getElementById("long").innerHTML = "";
-            document.getElementById("timestamp").innerHTML = "";
-            const myLatlng = {lat:10.949185 ,lng: -74.803391};
-            map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 16,
-                center: myLatlng,
-            });
-            // Create the initial InfoWindow.
-            let infoWindow = new google.maps.InfoWindow({
-                content: "Click en el mapa para buscar",
-                position: myLatlng,
-            });
-            var auch= [];
-            //var map;
-            infoWindow.open(map);
-            // Configure the click listener.
-            map.addListener("click", (mapsMouseEvent) => {
-                // Close the current InfoWindow.
-                document.getElementById("lat").innerHTML = "";
-                document.getElementById("long").innerHTML = "";
-                document.getElementById("timestamp").innerHTML = "";
-                infoWindow.close();
-                if (typeof markers !== "undefined") {
-                    for (var i=0; i < markers.length; i++) {
-                        markers[i].setMap(null);
-                    }
-                    markers = [];
-                }
-                // Create a new InfoWindow.
-                infoWindow = new google.maps.InfoWindow({
-                position: mapsMouseEvent.latLng,
-                });
-                infoWindow.setContent(
-                JSON.stringify(mapsMouseEvent.latLng.toJSON()),
-                );
-                infoWindow.open(map);
-                auch =JSON.stringify(mapsMouseEvent.latLng.toJSON());
-                o = JSON.parse(auch);
-                Mydata= get(o);
-             
-            });
-           
-        }
-
-        async function get(o){
-            const latLng = {o};
-                const options = {
+                    //single consult
+                    const daterange = {comienzo:start , final:end, camion:camion};
+                    const options = {
                     method: "POST",
-                    body: JSON.stringify(latLng),
-                    headers: {
-                        "Content-Type": "application/json"
-                }
-            };
-            const response = await fetch('/historical', options);
-            data =  await response.json();
-            console.log(data);
-
-            //var polyline;
-
-            if (Array.isArray(data) && data.length){
-
-                if (typeof markers == "undefined") {
-                    //polyline.setMap(null);
-                    markers = [];
-                }
-            
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-                    var pos = {
-                    lat: element['lat'],
-                    lng: element['lng']
+                        body: JSON.stringify(daterange),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
                     };
-                    
-                    var marker = new google.maps.Marker({
-                        position: pos,
-                        map: map,                   
-                    });
-                    markers.push(marker);    
-                }
+                    const response = await fetch('/create', options);
+                    const result = await response.json();
+                    console.log(result);
 
-                var show =data.pop()
-                document.getElementById("lat").innerHTML = show.lat;
-                document.getElementById("long").innerHTML = show.lng;
-                document.getElementById("timestamp").innerHTML = show.timestamp;
-                return data
-            }
-            else{
-                window.alert("No hay recorridos en este lugar.");
-            }             
+                    if (Array.isArray(result) && result.length){
+                        initMap();
+                        // array exists and is not empty
+                        pathCoordinate = [];
+                        //filter data of lat and lng
+                        result.forEach(object => {
+                            pathCoordinate.push({lat:object.lat, lng:object.lng});
+                        });
+                        var lineSymbol = {
+                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                        };
+                        var polyline = new google.maps.Polyline({
+                            path : pathCoordinate,
+                            geodesic : true,
+                            strokeColor : '#003bd5',
+                            strokeOpacity : 1,
+                            strokeWeight : 2,
+                            icons: [{
+                                icon: lineSymbol,
+                                offset: '0',
+                                repeat: '70px'
+                            }],
+                            JointType: 1,
+                            //map : map
+                        });
+                        polyline.setMap(map);
+                        //center in the last polyline point
+                        ncenter = pathCoordinate.pop();
+                        var options2 = {
+                            center: ncenter
+                        }
+                        map.setOptions(options2);
+                        // NEW
+                        const marker = new google.maps.Marker({
+                            position: ncenter,
+                            map: map
+                        });
+                        if(document.getElementById('menu').value=="Camion 1")
+                        document.getElementById("camion").innerHTML = '1';
+                        else{
+                            document.getElementById("camion").innerHTML = '2';
+                        }
+
+                        showslider();
+                        Slider = document.getElementById("slider");
+                        Slider.min = `${0}`;
+                        Slider.max = `${result.length - 1}`;
+                        
+                        //console.log(result.length)
+                        Slider.oninput = function() {
+                            var indexs = parseInt(this.value);
+                            marker.setPosition({lat:result[indexs].lat, lng:result[indexs].lng});
+                            document.getElementById("lat").innerHTML = result[indexs].lat;
+                            document.getElementById("long").innerHTML = result[indexs].lng;
+                            document.getElementById("timestamp").innerHTML = result[indexs].timestamp;
+                            document.getElementById("axis").innerHTML = result[indexs].axis;
+                        }
+                    }
+                    else{
+                        initMap();
+                        var myVar;
+                        myVar = setTimeout(alertFunc, 500);
+                        function alertFunc() {
+                            alert("No hay recorrido entre esas fechas.");
+                        }
+                    }
+                }
+            }       
+        }
+    
+        function showForm() {
+            document.getElementById('form_fecha').style.display = 'block';
+        }
+        function show2() {
+            document.getElementById('menu1').style.display = 'block';
+            myVar1 =true;
+        }
+        function clearform(){
+            document.getElementById("lat").innerHTML = '';
+            document.getElementById("long").innerHTML = '';
+            document.getElementById("timestamp").innerHTML = '';
+            document.getElementById("camion").innerHTML = '';
+            document.getElementById("axis").innerHTML = '';
+        }
+        function hideForm() {
+            document.getElementById('form_fecha').style.display = 'none';
+        }
+        function hide2() {
+            document.getElementById('menu1').style.display = 'none';
+            myVar1 = false;
+        }
+        function exit1() {
+            clearInterval(update);
+        }
+        function showslider(){
+            document.getElementById('slidercontainer').style.display = 'block';
+        }
+        function hideslider(){
+            document.getElementById('slidercontainer').style.display = 'none';
         }
     </script>
 

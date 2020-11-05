@@ -14,9 +14,12 @@ app.use(express.json({ limit: '1mb' }));
 require('dotenv').config({path: __dirname + '/.env'})
 const database = mysql.createConnection({
     host: process.env.DB_HOST,
+    //host: '127.0.0.1',
+    //user :'root',
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_DATABASE
+    //database: 'dblocation'
 });
 
 socket.on('message', (content, rinfo) => {
@@ -25,7 +28,7 @@ socket.on('message', (content, rinfo) => {
     //Enviar info a la base de datos
     cont = content.toString().split(",")
     cont3 =  cont[3];
-    cont = {lat: cont[0], lng: cont[1], timestamp:cont[2]}
+    cont = {lat: cont[0], lng: cont[1], timestamp:cont[2], axis:cont[4]}
     if(cont3=="1"){
         let sql1 = 'INSERT INTO datos SET ?';
         let query = database.query(sql1, cont, (err, result) => {
@@ -40,31 +43,6 @@ socket.on('message', (content, rinfo) => {
     }
 });
 
-app.post('/historical', (req, res) => {
-        var numlat = req.body.o.lat;
-        var numlng = req.body.o.lng;
-
-        numlat = parseFloat(numlat.toString());
-        numlng = parseFloat(numlng.toString());
-
-        var precision = 0.0005;
-        var legend = 4;
-        r1numlat = parseFloat(numlat) + precision;
-        r1numlat = r1numlat.toFixed(legend);
-        r2numlat = numlat - precision;
-        r2numlat = r2numlat.toFixed(legend);
-        ////////////////////////// 
-        r1numlng = parseFloat(numlng) + precision;
-        r1numlng = r1numlng.toFixed(legend);
-        r2numlng = numlng - precision;
-        r2numlng = r2numlng.toFixed(legend);
-        let sql = `SELECT * FROM datos WHERE (lat BETWEEN ${r2numlat} AND ${r1numlat}) AND (lng BETWEEN ${r2numlng} AND ${r1numlng})`;
-        let query = database.query(sql, (err, result) => {
-            if (err) throw err;
-            //console.log(result);
-            res.end(JSON.stringify(result));
-        });
-});
 
 app.get('/', (request, response) => {
     response.writeHead(200, {'content-type': 'text/html'});
@@ -72,42 +50,28 @@ app.get('/', (request, response) => {
     file.pipe(response);
 });
 
-app.post('/create', urlencodedParser, function (req,res) {
-    var inicio = req.body.inicio;
-    var fin = req.body.fin;
-    var camion1 = req.body.camion1;
-    var camion2 = req.body.camion2;
-    var camion3 = req.body.camion3;
-    inicio = inicio.toString()
-    fin = fin.toString()
-    camion1 = camion1.toString()
+app.post('/create', (req, res) => {
+    //console.log(req.body);
+    var inicio = req.body.comienzo;
+    var fin = req.body.final;
+    var camion = req.body.camion;
+    inicio = inicio.toString();
+    fin = fin.toString();
+    camion = camion.toString();
 
-    if (camion1=="on"){
-        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+    if (camion=="Camion 1"){
+        let sql = `SELECT lat, lng, timestamp, axis FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
-            //console.log(result);
-        io.sockets.emit('historia', result);
-        console.log(result);
-    });
+        res.end(JSON.stringify(result));
+        });
     }
-    if (camion2=="on"){
-        let sql = `SELECT lat, lng FROM datos2 WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
+    if (camion=="Camion 2"){
+        let sql = `SELECT lat, lng, timestamp, axis FROM datos2 WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
         let query = database.query(sql, (err, result) => {
             if(err){ throw err;}
-            //console.log(result);
-        io.sockets.emit('historia', result);
-        console.log(result);
-    });
-    }
-    if (camion3=="on"){
-        let sql = `SELECT lat, lng FROM datos WHERE timestamp BETWEEN '${inicio}' and '${fin}'`;
-        let query = database.query(sql, (err, result) => {
-            if(err){ throw err;}
-            //console.log(result);
-        io.sockets.emit('historia', result);
-        console.log(result);
-    });
+            res.end(JSON.stringify(result));
+        });
     }
 });
 
