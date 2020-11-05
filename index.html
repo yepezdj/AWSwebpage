@@ -475,6 +475,7 @@
                             document.getElementById("long").innerHTML = result1[indexs].lng;
                             document.getElementById("timestamp").innerHTML = result1[indexs].timestamp;
                             document.getElementById("axis").innerHTML = result1[indexs].axis;
+                            document.getElementById("camion").innerHTML = "1";
                         }
                     }
                     //only truck 2 have a registered trip
@@ -487,7 +488,7 @@
                         polyline2 = new google.maps.Polyline({
                             path : pathCoordinate2,
                             geodesic : true,
-                            strokeColor : '#2cc11e',
+                            strokeColor : '#003bd5',
                             strokeOpacity : 1,
                             strokeWeight : 2,
                             icons: [{
@@ -527,6 +528,7 @@
                             document.getElementById("long").innerHTML = result2[indexs].lng;
                             document.getElementById("timestamp").innerHTML = result2[indexs].timestamp;
                             document.getElementById("axis").innerHTML = result2[indexs].axis;
+                            document.getElementById("camion").innerHTML = "2";
                         }
                     }
                     if (condicion1==false && condicion2==false) {
