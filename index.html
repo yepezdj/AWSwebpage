@@ -38,10 +38,46 @@
             }
    </style>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    .slidecontainer {
+    width: 100%;
+    }
+
+    .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;  
+    background: #6b6b6b;
+    outline: none;
+    opacity: 1;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    }
+
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; 
+    background: #4CAF50;
+    cursor: pointer;
+    } 
+
+    /* .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    } */
+    </style>
 </head>
 
 <body>
-    <div style="position:absolute; top:60px; left:0px; z-index:5; width:370px; height:460px; background-color:#CDCDCD; opacity:0.9">
+    <div style="position:absolute; top:60px; left:0px; z-index:5; width:350px; height:500px; background-color:#CDCDCD; opacity:0.9">
 
         <form
             style="position:absolute; top:65px; left:10px; z-index: 10;"
@@ -98,8 +134,9 @@
             <input type="submit" value="Submit" id="btnSubmit" onclick="validate()">
         </form>
 
-        <div style="display: none; position:absolute; top:430px; left:5px; width:320px"
-        id="slidercontainer">
+        <div id="slidercontainer"
+            style="display: none; position: absolute; top:430px; left:5px; width:320px; height:20px; left:10px;">
+            <label for="fin">Recorrido:</label>
             <input type="range" min="0" max="100" value="0" , class="slider" , id="slider"><br>
         </div>
     </div>
@@ -115,15 +152,6 @@
             $("input[name='fin']").attr('min',$(this).val());
             })
         });
-        /* $( document ).ready(function() {
-            $('#btnSubmit').click(function(){
-                if($("input[name='inicio']").val()==""){
-                alert("Seleccione ventana de tiempo")
-                }else if($("input[name='fin']").val()==""){
-                alert("Seleccione ventana de tiempo")
-                }
-            });
-        }); */
     </script>
 
     <script>
@@ -133,7 +161,8 @@
         
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'),{
-                zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+                zoom: 12, center: {lat:10.949185 ,lng: -74.803391},
+                streetViewControl: false
             });
         }
 
@@ -141,16 +170,15 @@
             op1 = new Object();
             op2 = new Object();
             map2 = new google.maps.Map(document.getElementById('map'),{
-                zoom: 12, center: {lat:10.949185 ,lng: -74.803391}
+                zoom: 12, center: {lat:10.949185 ,lng: -74.803391},
+                streetViewControl: false
             });
             marker = new google.maps.Marker({
-                //position: {lat:35.86166 ,lng: 104.195397},
                 map: map2,
                 animation: google.maps.Animation.DROP
             });
 
             marker2 = new google.maps.Marker({
-                //position: {lat:35.86166 ,lng: 104.195397},
                 map: map2,
                 animation: google.maps.Animation.DROP
             });
@@ -361,6 +389,41 @@
                             center: ncenter
                         }
                         map.setOptions(options);
+
+                        const marker1 = new google.maps.Marker({
+                            position: ncenter,
+                            map: map
+                        });
+                    
+                        showslider();
+                        Slider = document.getElementById("slider");
+                        Slider.min = `${0}`;
+                        Slider.max = `${result1.length + result2.length - 2}`;
+                        var max1 = result1.length-1;
+                        
+                        //console.log(result.length)
+                        Slider.oninput = function() {
+                            var indexs = parseInt(this.value);
+                            if (indexs<=max1) {
+                                marker1.setPosition({lat:result1[indexs].lat, lng:result1[indexs].lng});
+                                document.getElementById("lat").innerHTML = result1[indexs].lat;
+                                document.getElementById("long").innerHTML = result1[indexs].lng;
+                                document.getElementById("timestamp").innerHTML = result1[indexs].timestamp;
+                                document.getElementById("axis").innerHTML = result1[indexs].axis;
+                                document.getElementById("camion").innerHTML = "1";
+
+                            }
+                            else{
+                                indexs = indexs - max1;
+                                marker1.setPosition({lat:result2[indexs].lat, lng:result2[indexs].lng});
+                                document.getElementById("lat").innerHTML = result2[indexs].lat;
+                                document.getElementById("long").innerHTML = result2[indexs].lng;
+                                document.getElementById("timestamp").innerHTML = result2[indexs].timestamp;
+                                document.getElementById("axis").innerHTML = result2[indexs].axis;
+                                document.getElementById("camion").innerHTML = "2";
+                            }
+                            
+                        }
                     }
                     //only truck 1 have a registered trip
                     if (condicion1==true && condicion2==false) {
@@ -388,13 +451,34 @@
                             center: ncenter
                         }
                         map.setOptions(opti);
+
+                        const marker = new google.maps.Marker({
+                            position: ncenter,
+                            map: map
+                        });
+
                         var myVar;
                         myVar = setTimeout(alertFunc, 500);
                         function alertFunc() {
                             alert("Solo el camion 1 tiene un recorrido en entre fechas.");
                         }
+
+                        showslider();
+                        Slider = document.getElementById("slider");
+                        Slider.min = `${0}`;
+                        Slider.max = `${result1.length - 1}`;
+                        
+                        //console.log(result.length)
+                        Slider.oninput = function() {
+                            var indexs = parseInt(this.value);
+                            marker.setPosition({lat:result1[indexs].lat, lng:result1[indexs].lng});
+                            document.getElementById("lat").innerHTML = result1[indexs].lat;
+                            document.getElementById("long").innerHTML = result1[indexs].lng;
+                            document.getElementById("timestamp").innerHTML = result1[indexs].timestamp;
+                            document.getElementById("axis").innerHTML = result1[indexs].axis;
+                        }
                     }
-                    //only truck 1 have a registered trip
+                    //only truck 2 have a registered trip
                     if (condicion1==false && condicion2==true) {
                         initMap();
                         pathCoordinate2 = result2;
@@ -420,11 +504,30 @@
                             center: ncenter
                         }
                         map.setOptions(opti);
+                        const marker = new google.maps.Marker({
+                            position: ncenter,
+                            map: map
+                        });
                         
                         var myVar;
                         myVar = setTimeout(alertFunc, 500);
                         function alertFunc() {
                             alert("Solo el camion 2 tiene un recorrido en entre fechas.");
+                        }
+
+                        showslider();
+                        Slider = document.getElementById("slider");
+                        Slider.min = `${0}`;
+                        Slider.max = `${result2.length - 1}`;
+                        
+                        //console.log(result.length)
+                        Slider.oninput = function() {
+                            var indexs = parseInt(this.value);
+                            marker.setPosition({lat:result2[indexs].lat, lng:result2[indexs].lng});
+                            document.getElementById("lat").innerHTML = result2[indexs].lat;
+                            document.getElementById("long").innerHTML = result2[indexs].lng;
+                            document.getElementById("timestamp").innerHTML = result2[indexs].timestamp;
+                            document.getElementById("axis").innerHTML = result2[indexs].axis;
                         }
                     }
                     if (condicion1==false && condicion2==false) {
@@ -551,10 +654,6 @@
             document.getElementById('slidercontainer').style.display = 'none';
         }
     </script>
-
-    
-
-    
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQBGTBKMtCmEGfBu9YqHhXNpHIDormd9o&callback=initMap"></script>
 </body>
