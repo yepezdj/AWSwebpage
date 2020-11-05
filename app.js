@@ -14,9 +14,12 @@ app.use(express.json({ limit: '1mb' }));
 require('dotenv').config({path: __dirname + '/.env'})
 const database = mysql.createConnection({
     host: process.env.DB_HOST,
+    //host: '127.0.0.1',
+    //user :'root',
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_DATABASE
+    //database: 'dblocation'
 });
 
 socket.on('message', (content, rinfo) => {
@@ -40,31 +43,6 @@ socket.on('message', (content, rinfo) => {
     }
 });
 
-app.post('/historical', (req, res) => {
-        var numlat = req.body.o.lat;
-        var numlng = req.body.o.lng;
-
-        numlat = parseFloat(numlat.toString());
-        numlng = parseFloat(numlng.toString());
-
-        var precision = 0.0005;
-        var legend = 4;
-        r1numlat = parseFloat(numlat) + precision;
-        r1numlat = r1numlat.toFixed(legend);
-        r2numlat = numlat - precision;
-        r2numlat = r2numlat.toFixed(legend);
-        ////////////////////////// 
-        r1numlng = parseFloat(numlng) + precision;
-        r1numlng = r1numlng.toFixed(legend);
-        r2numlng = numlng - precision;
-        r2numlng = r2numlng.toFixed(legend);
-        let sql = `SELECT * FROM datos WHERE (lat BETWEEN ${r2numlat} AND ${r1numlat}) AND (lng BETWEEN ${r2numlng} AND ${r1numlng})`;
-        let query = database.query(sql, (err, result) => {
-            if (err) throw err;
-            //console.log(result);
-            res.end(JSON.stringify(result));
-        });
-});
 
 app.get('/', (request, response) => {
     response.writeHead(200, {'content-type': 'text/html'});
@@ -72,7 +50,6 @@ app.get('/', (request, response) => {
     file.pipe(response);
 });
 
-//app.post('/create', urlencodedParser, function (req,res) {
 app.post('/create', (req, res) => {
     //console.log(req.body);
     var inicio = req.body.comienzo;
