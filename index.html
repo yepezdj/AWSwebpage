@@ -6,7 +6,8 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        var socket = io.connect('http://3.215.220.179:50000');
+        //var socket = io.connect('http://localhost:50000');
+        var socket = io.connect('http://54.227.210.76:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             ide= coord[3];
@@ -77,8 +78,9 @@
 
             <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(),clearform(),initMap(), hideslider(), hide2(), exit1()">
             <input type="button" value="Ubicacion en vivo" id="live" onclick="show2(),clearform(),hideslider(), hideForm(), livevalues()">
-
-            <select style="display: none" name="menu1" id="menu1">
+            <label id="centrarrr" style="display: none" for="centrar">Centrar en:</label>
+		
+            <select style="display: none; position:absolute; left:80px; top:20px;" name="menu1" id="menu1">
                 <option>Camion 1</option>
                 <option>Camion 2</option>
             </select>
@@ -562,7 +564,7 @@
                             document.getElementById("lat2").innerHTML = result2[indexs].lat;
                             document.getElementById("long2").innerHTML = result2[indexs].lng;
                             document.getElementById("timestamp2").innerHTML = result2[indexs].timestamp;
-                            document.getElementById("axis").innerHTML = result2[indexs].axis;
+                            document.getElementById("axis2").innerHTML = result2[indexs].axis;
                         }
                     }
                     if (condicion1==false && condicion2==false) {
@@ -674,6 +676,7 @@
         }
         function show2() {
             document.getElementById('menu1').style.display = 'block';
+	    document.getElementById('centrarrr').style.display = 'block';
             myVar1 =true;
         }
         function clearform(){
@@ -691,6 +694,7 @@
         }
         function hide2() {
             document.getElementById('menu1').style.display = 'none';
+	    document.getElementById('centrarrr').style.display = 'none';
             myVar1 = false;
         }
         function exit1() {
