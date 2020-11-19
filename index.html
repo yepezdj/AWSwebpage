@@ -66,13 +66,6 @@
     cursor: pointer;
     } 
 
-    /* .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #4CAF50;
-    cursor: pointer;
-    } */
     </style>
 </head>
 
@@ -80,40 +73,48 @@
     <div style="position:absolute; top:60px; left:0px; z-index:5; width:350px; height:500px; background-color:#CDCDCD; opacity:0.9">
 
         <form
-            style="position:absolute; top:65px; left:10px; z-index: 10;"
+            style="position:absolute; top:45px; left:5px; z-index: 10;"
             name="formulario_fecha" id="formulario_fecha">
 
             <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(),clearform(),initMap(), hideslider(), hide2(), exit1()">
             <input type="button" value="Ubicacion en vivo" id="live" onclick="show2(),clearform(),hideslider(), hideForm(), livevalues()">
-
-            <select style="display: none" name="menu1" id="menu1">
+            <label id="centrarrr" style="display: none" for="centrar">Centrar en:</label>
+            <select style="display: none; position:absolute; left:80px; top:20px;" name="menu1" id="menu1">
                 <option>Camion 1</option>
                 <option>Camion 2</option>
             </select>
         </form>
 
         <font color=#000000>
-            <h1 style= "font-size:1cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:1cm; top: -10px;" ><i>LOCATION</i></h1>
+            <h1 style= "font-size:0.8cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.2cm; top: -10px;" ><i>ATLAS</i></h1>
 
-            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 105px;" ><i>-Latitud:</i></h2>
+            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.7cm; top: 70px;" ><i>Camion 1</i></h2>
+            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:5.5cm; top: 70px;" ><i>Camion 2</i></h2>
 
-            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.3cm; top: 97px;" ><p id="lat"></p></h2>
+            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.8cm; top: 95px;" ><i>Latitud:</i></h2>
+            <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:5.8cm; top: 95px;" ><i>Latitud:</i></h2>
 
-            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 145px;" ><i>-Longitud:</i></h3>
+            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:0.2cm; top: 105px;" ><p id="lat"></p></h2>
+            <h2 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:5.2cm; top: 105px;" ><p id="lat2"></p></h2>
 
-            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.6cm; top: 137px;" ><p id="long"></p></h3>
+            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.7cm; top: 140px;" ><i>Longitud:</i></h3>
+            <h3 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:5.5cm; top: 140px;" ><i>Longitud:</i></h3>
 
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 185px;" ><i>-Timestamp:</i></h4>
+            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:0.2cm; top: 150px;" ><p id="long"></p></h3>
+            <h3 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:5.2cm; top: 150px;" ><p id="long2"></p></h3>
+
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.7cm; top: 185px;" ><i>X/Y/Z Axis:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:5.5cm; top: 185px;" ><i>X/Y/Z Axis:</i></h4>
             
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.3cm; top: 177px;" ><p id="timestamp"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:0.2cm; top: 200px;" ><p id="axis"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:5.2cm; top: 200px;" ><p id="axis2"></p></h4>
 
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 220px;" ><i>-Camion:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.7cm; top: 230px;" ><i>Timestamp:</i></h4>
+            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:5.5cm; top: 230px;" ><i>Timestamp:</i></h4>
             
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:2.6cm; top: 215px;" ><p id="camion"></p></h4>
-
-            <h4 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.3cm; top: 255px;" ><i>-X/Y/Z Axis:</i></h4>
-            
-            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:3.2cm; top: 250px;" ><p id="axis"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:0.2cm; top: 250px;" ><p id="timestamp"></p></h4>
+            <h4 style= "font-size:0.4cm;font-family:'Times New Roman', Times, serif; position:absolute; z-index: 10; left:5.2cm; top: 250px;" ><p id="timestamp2"></p></h4>
+        
         </font>
 
         <form
@@ -235,12 +236,12 @@
                         map : map2
                     });
 
+                    document.getElementById("lat").innerHTML = latitud1;
+                    document.getElementById("long").innerHTML = longitud1;
+                    document.getElementById("axis").innerHTML = axis1;
+                    document.getElementById("timestamp").innerHTML = fecha1;
+
                     if (centerpoint == 'Camion 1' && myVar1) {
-                        document.getElementById("lat").innerHTML = latitud1;
-                        document.getElementById("long").innerHTML = longitud1;
-                        document.getElementById("timestamp").innerHTML = fecha1;
-                        document.getElementById("camion").innerHTML = ide;
-                        document.getElementById("axis").innerHTML = axis1;
                         map2.setOptions(op1); 
                     }
                     else{
@@ -278,18 +279,19 @@
                         map : map2
                     });
 
+                    document.getElementById("lat2").innerHTML = latitud2;
+                    document.getElementById("long2").innerHTML = longitud2;
+                    document.getElementById("axis2").innerHTML = axis2;   
+                    document.getElementById("timestamp2").innerHTML = fecha2;
+
                     if (centerpoint == 'Camion 2' && myVar1) {
-                        document.getElementById("lat").innerHTML = latitud2;
-                        document.getElementById("long").innerHTML = longitud2;
-                        document.getElementById("timestamp").innerHTML = fecha2;
-                        document.getElementById("camion").innerHTML = ide;
-                        document.getElementById("axis").innerHTML = axis2;
                         map2.setOptions(op2); 
                     }
                     else{
                         map2.setOptions(op1);
                     }
-                }            
+                }
+                         
             }, 500);
         }
         
@@ -384,46 +386,83 @@
                         });
                         polyline1.setMap(map);
                         polyline2.setMap(map);
-                        var ncenter = pathCoordinate1.pop();
+                        var ncenter1 = pathCoordinate1.pop();
+                        var ncenter2 = pathCoordinate2.pop();
                         var options = {
-                            center: ncenter
+                            center: ncenter1
                         }
                         map.setOptions(options);
 
                         const marker1 = new google.maps.Marker({
-                            position: ncenter,
+                            position: ncenter1,
                             map: map
                         });
-                    
-                        showslider();
-                        Slider = document.getElementById("slider");
-                        Slider.min = `${0}`;
-                        Slider.max = `${result1.length + result2.length - 2}`;
-                        var max1 = result1.length-1;
-                        
-                        //console.log(result.length)
-                        Slider.oninput = function() {
-                            var indexs = parseInt(this.value);
-                            if (indexs<=max1) {
-                                marker1.setPosition({lat:result1[indexs].lat, lng:result1[indexs].lng});
-                                document.getElementById("lat").innerHTML = result1[indexs].lat;
-                                document.getElementById("long").innerHTML = result1[indexs].lng;
-                                document.getElementById("timestamp").innerHTML = result1[indexs].timestamp;
-                                document.getElementById("axis").innerHTML = result1[indexs].axis;
-                                document.getElementById("camion").innerHTML = "1";
+                        const marker2 = new google.maps.Marker({
+                            position: ncenter2,
+                            map: map
+                        });
+                        if (result1.length>=result2.length) {
+                            showslider();
+                            Slider = document.getElementById("slider");
+                            Slider.min = `${0}`;
+                            Slider.max = `${result1.length - 1}`;
+                            var max1 = result2.length-1;
 
+                            Slider.oninput = function() {
+                            var indexs = parseInt(this.value);
+                                if (indexs<=max1) {
+                                    marker1.setPosition({lat:result1[indexs].lat, lng:result1[indexs].lng});
+                                    document.getElementById("lat").innerHTML = result1[indexs].lat;
+                                    document.getElementById("long").innerHTML = result1[indexs].lng;
+                                    document.getElementById("timestamp").innerHTML = result1[indexs].timestamp;
+                                    document.getElementById("axis").innerHTML = result1[indexs].axis;
+
+
+                                    
+                                    marker2.setPosition({lat:result2[indexs].lat, lng:result2[indexs].lng});
+                                    document.getElementById("lat2").innerHTML = result2[indexs].lat;
+                                    document.getElementById("long2").innerHTML = result2[indexs].lng;
+                                    document.getElementById("timestamp2").innerHTML = result2[indexs].timestamp;
+                                    document.getElementById("axis2").innerHTML = result2[indexs].axis;
+                                }
+                                else{
+                                    marker1.setPosition({lat:result1[indexs].lat, lng:result1[indexs].lng});
+                                    document.getElementById("lat").innerHTML = result1[indexs].lat;
+                                    document.getElementById("long").innerHTML = result1[indexs].lng;
+                                    document.getElementById("timestamp").innerHTML = result1[indexs].timestamp;
+                                    document.getElementById("axis").innerHTML = result1[indexs].axis;
+                                }
                             }
-                            else{
-                                indexs = indexs - max1;
-                                marker1.setPosition({lat:result2[indexs].lat, lng:result2[indexs].lng});
-                                document.getElementById("lat").innerHTML = result2[indexs].lat;
-                                document.getElementById("long").innerHTML = result2[indexs].lng;
-                                document.getElementById("timestamp").innerHTML = result2[indexs].timestamp;
-                                document.getElementById("axis").innerHTML = result2[indexs].axis;
-                                document.getElementById("camion").innerHTML = "2";
+                        } else {
+                            showslider();
+                            Slider = document.getElementById("slider");
+                            Slider.min = `${0}`;
+                            Slider.max = `${result2.length - 1}`;
+                            var max1 = result1.length-1;
+
+                            Slider.oninput = function() {
+                            var indexs = parseInt(this.value);
+                                if (indexs<=max1) {
+                                    marker1.setPosition({lat:result1[indexs].lat, lng:result1[indexs].lng});
+                                    document.getElementById("lat").innerHTML = result1[indexs].lat;
+                                    document.getElementById("long").innerHTML = result1[indexs].lng;
+                                    document.getElementById("timestamp").innerHTML = result1[indexs].timestamp;
+                                    document.getElementById("axis").innerHTML = result1[indexs].axis;
+                                    marker2.setPosition({lat:result2[indexs].lat, lng:result2[indexs].lng});
+                                    document.getElementById("lat2").innerHTML = result2[indexs].lat;
+                                    document.getElementById("long2").innerHTML = result2[indexs].lng;
+                                    document.getElementById("timestamp2").innerHTML = result2[indexs].timestamp;
+                                    document.getElementById("axis2").innerHTML = result2[indexs].axis;
+                                }
+                                else{
+                                    marker2.setPosition({lat:result2[indexs].lat, lng:result2[indexs].lng});
+                                    document.getElementById("lat2").innerHTML = result2[indexs].lat;
+                                    document.getElementById("long2").innerHTML = result2[indexs].lng;
+                                    document.getElementById("timestamp2").innerHTML = result2[indexs].timestamp;
+                                    document.getElementById("axis2").innerHTML = result2[indexs].axis;
+                                }
                             }
-                            
-                        }
+                        }             
                     }
                     //only truck 1 have a registered trip
                     if (condicion1==true && condicion2==false) {
@@ -488,7 +527,7 @@
                         polyline2 = new google.maps.Polyline({
                             path : pathCoordinate2,
                             geodesic : true,
-                            strokeColor : '#2cc11e',
+                            strokeColor : '#003bd5',
                             strokeOpacity : 1,
                             strokeWeight : 2,
                             icons: [{
@@ -524,9 +563,9 @@
                         Slider.oninput = function() {
                             var indexs = parseInt(this.value);
                             marker.setPosition({lat:result2[indexs].lat, lng:result2[indexs].lng});
-                            document.getElementById("lat").innerHTML = result2[indexs].lat;
-                            document.getElementById("long").innerHTML = result2[indexs].lng;
-                            document.getElementById("timestamp").innerHTML = result2[indexs].timestamp;
+                            document.getElementById("lat2").innerHTML = result2[indexs].lat;
+                            document.getElementById("long2").innerHTML = result2[indexs].lng;
+                            document.getElementById("timestamp2").innerHTML = result2[indexs].timestamp;
                             document.getElementById("axis").innerHTML = result2[indexs].axis;
                         }
                     }
@@ -590,26 +629,37 @@
                             position: ncenter,
                             map: map
                         });
-                        if(document.getElementById('menu').value=="Camion 1")
-                        document.getElementById("camion").innerHTML = '1';
-                        else{
-                            document.getElementById("camion").innerHTML = '2';
-                        }
-
-                        showslider();
-                        Slider = document.getElementById("slider");
-                        Slider.min = `${0}`;
-                        Slider.max = `${result.length - 1}`;
-                        
-                        //console.log(result.length)
-                        Slider.oninput = function() {
-                            var indexs = parseInt(this.value);
-                            marker.setPosition({lat:result[indexs].lat, lng:result[indexs].lng});
-                            document.getElementById("lat").innerHTML = result[indexs].lat;
-                            document.getElementById("long").innerHTML = result[indexs].lng;
-                            document.getElementById("timestamp").innerHTML = result[indexs].timestamp;
-                            document.getElementById("axis").innerHTML = result[indexs].axis;
-                        }
+                        if(document.getElementById('menu').value=="Camion 1"){
+                            showslider();
+                            Slider = document.getElementById("slider");
+                            Slider.min = `${0}`;
+                            Slider.max = `${result.length - 1}`;
+                            
+                            //console.log(result.length)
+                            Slider.oninput = function() {
+                                var indexs = parseInt(this.value);
+                                marker.setPosition({lat:result[indexs].lat, lng:result[indexs].lng});
+                                document.getElementById("lat").innerHTML = result[indexs].lat;
+                                document.getElementById("long").innerHTML = result[indexs].lng;
+                                document.getElementById("timestamp").innerHTML = result[indexs].timestamp;
+                                document.getElementById("axis").innerHTML = result[indexs].axis;
+                            }
+                        } else if(document.getElementById('menu').value=="Camion 2"){
+                            showslider();
+                            Slider = document.getElementById("slider");
+                            Slider.min = `${0}`;
+                            Slider.max = `${result.length - 1}`;
+                            
+                            //console.log(result.length)
+                            Slider.oninput = function() {
+                                var indexs = parseInt(this.value);
+                                marker.setPosition({lat:result[indexs].lat, lng:result[indexs].lng});
+                                document.getElementById("lat2").innerHTML = result[indexs].lat;
+                                document.getElementById("long2").innerHTML = result[indexs].lng;
+                                document.getElementById("timestamp2").innerHTML = result[indexs].timestamp;
+                                document.getElementById("axis2").innerHTML = result[indexs].axis;
+                            }
+                        }          
                     }
                     else{
                         initMap();
@@ -628,20 +678,25 @@
         }
         function show2() {
             document.getElementById('menu1').style.display = 'block';
+            document.getElementById('centrarrr').style.display = 'block';
             myVar1 =true;
         }
         function clearform(){
             document.getElementById("lat").innerHTML = '';
             document.getElementById("long").innerHTML = '';
             document.getElementById("timestamp").innerHTML = '';
-            document.getElementById("camion").innerHTML = '';
             document.getElementById("axis").innerHTML = '';
+            document.getElementById("lat2").innerHTML = '';
+            document.getElementById("long2").innerHTML = '';
+            document.getElementById("timestamp2").innerHTML = '';
+            document.getElementById("axis2").innerHTML = '';
         }
         function hideForm() {
             document.getElementById('form_fecha').style.display = 'none';
         }
         function hide2() {
             document.getElementById('menu1').style.display = 'none';
+            document.getElementById('centrarrr').style.display = 'none';
             myVar1 = false;
         }
         function exit1() {
@@ -655,6 +710,6 @@
         }
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQBGTBKMtCmEGfBu9YqHhXNpHIDormd9o&callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD05fSHAtJFNbMZ-lrLblRPIbbwlFydT0s&callback=initMap"></script>
 </body>
 </html>
