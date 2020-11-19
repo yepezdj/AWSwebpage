@@ -78,8 +78,9 @@
 
             <input type="button" value="Ubicacion de registros historicos" id="historia" onclick="showForm(),clearform(),initMap(), hideslider(), hide2(), exit1()">
             <input type="button" value="Ubicacion en vivo" id="live" onclick="show2(),clearform(),hideslider(), hideForm(), livevalues()">
-
-            <select style="display: none" name="menu1" id="menu1">
+            <label id="centrarrr" style="display: none" for="centrar">Centrar en:</label>
+		
+            <select style="display: none; position:absolute; left:80px; top:20px;" name="menu1" id="menu1">
                 <option>Camion 1</option>
                 <option>Camion 2</option>
             </select>
@@ -675,6 +676,7 @@
         }
         function show2() {
             document.getElementById('menu1').style.display = 'block';
+	    document.getElementById('centrarrr').style.display = 'block';
             myVar1 =true;
         }
         function clearform(){
@@ -692,6 +694,7 @@
         }
         function hide2() {
             document.getElementById('menu1').style.display = 'none';
+	    document.getElementById('centrarrr').style.display = 'none';
             myVar1 = false;
         }
         function exit1() {
