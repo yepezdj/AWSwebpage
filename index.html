@@ -6,7 +6,8 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        var socket = io.connect('http://3.215.220.179:50000');
+        //var socket = io.connect('http://localhost:50000');
+        var socket = io.connect('http://54.227.210.76:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             ide= coord[3];
@@ -86,7 +87,7 @@
         </form>
 
         <font color=#000000>
-            <h1 style= "font-size:0.8cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.2cm; top: -10px;" ><i>LOCATION</i></h1>
+            <h1 style= "font-size:0.8cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.2cm; top: -10px;" ><i>ATLAS</i></h1>
 
             <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:0.7cm; top: 70px;" ><i>Camion 1</i></h2>
             <h2 style= "font-size:0.5cm;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position:absolute; z-index: 10; left:5.5cm; top: 70px;" ><i>Camion 2</i></h2>
