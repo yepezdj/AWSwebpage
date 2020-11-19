@@ -6,8 +6,7 @@
 
     <script src='/socket.io/socket.io.js'></script>
     <script>
-        //var socket = io.connect('http://localhost:50000');
-        var socket = io.connect('http://54.227.210.76:50000');
+        var socket = io.connect('http://3.215.220.179:50000');
         socket.on('udp message', function (msg) {
             var coord = msg.split(",");
             ide= coord[3];
